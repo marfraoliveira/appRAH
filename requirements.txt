@@ -1,5 +1,4 @@
 flask
 numpy
-scikt-learn
 gunicorn
 
