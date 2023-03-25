@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 import json
 
-model = pickle.load(open('model.pkl','rb'))
+#model = pickle.load(open('model.pkl','rb'))
 
 app = Flask(__name__)
 
