@@ -2,6 +2,7 @@ from flask import Flask,request,jsonify
 import numpy as np
 import pickle
 import json
+import sklearn
 
 model = pickle.load(open('model.pkl','rb'))
 
