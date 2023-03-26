@@ -2,7 +2,7 @@ from flask import Flask,request,jsonify
 import numpy as np
 import pickle
 
-model = pickle.load(open('teste','rb'))
+model = pickle.load(open('modelkNN100Hz.pkl','rb'))
 
 app = Flask(__name__)
 
