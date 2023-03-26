@@ -1,6 +1,7 @@
 from flask import Flask,request,jsonify
 import numpy as np
 import pickle
+import sklearn 
 
 
 model = pickle.load(open('modelkNN100Hz.pkl','rb'))
