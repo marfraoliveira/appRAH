@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 
 
-model = pickle.load(open('modelkNN100Hz.pkl','rb'))
+#model = pickle.load(open('modelkNN100Hz.pkl','rb'))
 
 app = Flask(__name__)
 
