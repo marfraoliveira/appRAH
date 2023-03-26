@@ -1,29 +1,26 @@
 from flask import Flask,request,jsonify
 import numpy as np
 import pickle
-import json
 
-#model = pickle.load(open('model.pkl','rb'))
+
+model = pickle.load(open('modelkNN100Hz.pkl','rb'))
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "Hello world"
+    return "Eficiência de Energia em dispositivos Móveis"
 
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    cgpa = float(request.form.get('cgpa'))
-    iq = float(request.form.get('iq'))
-    profile_score = float(request.form.get('profile_score'))
-    input_query = np.array([[(cgpa),(iq),(profile_score)]])
+    x_axis = float((request.form.get('x_axis')))
+    y_axis = float((request.form.get('y_axis')))
+    z_axis = float((request.form.get('z_axis')))
+    input_query = np.array([[x_axis,y_axis,z_axis]])
     result = model.predict(input_query)[0]
-    return jsonify({'Movimento':str(result),
-                    'teste':teste
-                    })
-
-
+    return jsonify({'Movimento':str(result)})
 
 if __name__ == '__main__':
     app.run(debug=True)
+
