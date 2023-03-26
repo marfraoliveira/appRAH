@@ -1,4 +1,4 @@
-from sklearn.neighbors import NearestNeighbors
+#from sklearn.neighbors import NearestNeighbors
 from flask import Flask,request,jsonify
 import numpy as np
 import pickle
