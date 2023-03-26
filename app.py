@@ -4,7 +4,7 @@ import pickle
 import sklearn 
 
 
-model = pickle.load(open('','rb'))
+#model = pickle.load(open('','rb'))
 
 app = Flask(__name__)
 
