@@ -1,26 +1,43 @@
-#from sklearn.neighbors import NearestNeighbors
-from flask import Flask,request,jsonify
+import time
+from distutils.log import debug
+from fileinput import filename
+from flask import *  
+from flask import Flask,request,jsonify  
 import numpy as np
-import pickle
-
-
-model = pickle.load(open('model.H5','rb'))
+import pandas as pd
+import keras.models
+from keras.models import model_from_json
+import json
+from json import JSONEncoder
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+import tensorflow as tf
+from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return "Eficiência de Energia em dispositivos Móveis"
+#%%
 
 
-@app.route('/predict',methods=['POST'])
-def predict():
-    x_axis = float((request.form.get('x_axis')))
-    y_axis = float((request.form.get('y_axis')))
-    z_axis = float((request.form.get('z_axis')))
-    input_query = np.array([[x_axis,y_axis,z_axis]])
-    result = model.predict(input_query)[0]
-    return jsonify({'Movimento':str(result)})
+#%%
+# Carregue o modelo uma vez ao iniciar o servidor Flask
+
+@app.route('/', methods=['GET'])
+def hello_world():
+    return 'Hello, World!'
+
+@app.route('/api', methods=['POST'])
+def receber_dados():
+    try:
+        dados = request.get_json()  # Obter dados JSON da requisição
+        # Faça algo com os dados (aqui, apenas imprimimos)
+        print("Dados recebidos:", dados)
+        return jsonify({"status": "Dados recebidos com sucesso"})
+    except Exception as e:
+        return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0', port=5000)
+
+
+
+
