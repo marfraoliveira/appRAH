@@ -23,6 +23,31 @@ CORS(app)  # Isso permite solicitações de qualquer origem
 def hello_world():
     return 'Hello, World!'
 
+# =============================================================================
+# @app.route('/api', methods=['POST'])
+# def receber_dados():
+#     try:
+#         dados = request.get_json()  # Obter dados JSON da requisição
+# 
+#         # Contar o número de registros recebidos
+#         numero_de_registros = len(dados)
+# 
+#         print("Número de registros recebidos:", numero_de_registros)
+#         print("Dados recebidos:", dados)
+# 
+#         return jsonify({"status": "Dados recebidos com sucesso"})
+# #    except Exception as e:
+#  #       return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
+#     
+#   #  try:
+#    #     dados = request.get_json()  # Obter dados JSON da requisição
+#         # Faça algo com os dados (aqui, apenas imprimimos)
+#     #    print("Dados recebidos:", dados)
+#      #   return jsonify({"status": "Dados recebidos com sucesso"})
+#    # except Exception as e:
+#     #    return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
+# 
+# =============================================================================
 @app.route('/api', methods=['POST'])
 def receber_dados():
     try:
@@ -35,18 +60,8 @@ def receber_dados():
         print("Dados recebidos:", dados)
 
         return jsonify({"status": "Dados recebidos com sucesso"})
-#    except Exception as e:
- #       return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
-    
-  #  try:
-   #     dados = request.get_json()  # Obter dados JSON da requisição
-        # Faça algo com os dados (aqui, apenas imprimimos)
-    #    print("Dados recebidos:", dados)
-     #   return jsonify({"status": "Dados recebidos com sucesso"})
-   # except Exception as e:
-    #    return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
-
-
+    except Exception as e:
+        return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
 
