@@ -12,10 +12,10 @@ from json import JSONEncoder
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import tensorflow as tf
 from tensorflow.keras.models import load_model
-from flask_cors import CORS
+#from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Isso permite solicitações de qualquer origem
+#CORS(app)  # Isso permite solicitações de qualquer origem
 
 # Carregue o modelo uma vez ao iniciar o servidor Flask
 
