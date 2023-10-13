@@ -22,7 +22,7 @@ model = load_model('./modelCNN.h5')
 
 @app.route('/', methods=['GET'])
 def hello_world():
-    return 'Hello, World!'
+    return data
 
 # =============================================================================
 # @app.route('/api', methods=['POST'])
