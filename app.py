@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct 13 20:32:13 2023
+
+@author: marcel
+"""
+
 import time
 from distutils.log import debug
 from fileinput import filename
@@ -79,6 +87,7 @@ def predict():
         df['z'] = df['z'].astype('float')
         data = df.to_numpy()
         data = data.reshape(-1, 90, 3)
+        print(data)
         # Faça uma única previsão com o modelo carregado
         class_predict = np.argmax(model.predict(data), axis=1)
         mapeamento = {0: 'Downstairs', 1: 'Jogging', 2: 'Sitting', 3: 'Standing', 4: 'Upstairs', 5: 'Walking'}
@@ -90,8 +99,9 @@ def predict():
 
 
 
-app.run(debug=False, host='0.0.0.0', port=5000)
 
+
+app.run(debug=False, host='0.0.0.0', port=5000)
 
 
 
