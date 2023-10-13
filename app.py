@@ -83,7 +83,7 @@ def predict():
         class_predict = np.argmax(model.predict(data), axis=1)
         mapeamento = {0: 'Downstairs', 1: 'Jogging', 2: 'Sitting', 3: 'Standing', 4: 'Upstairs', 5: 'Walking'}
         # rotulos = [mapeamento[v] for v in class_predict]
-        return jsonify({'args': str(class_predict)})
+        return jsonify({'args': str(data)})
     except Exception as e:
         return jsonify({'error': str(e)})    
     app.run(debug=False, host='0.0.0.0', port=5000)
