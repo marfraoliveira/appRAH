@@ -5,7 +5,7 @@ Created on Fri Oct 13 20:32:13 2023
 
 @author: marcel
 """
-
+import csv
 import time
 from distutils.log import debug
 from fileinput import filename
