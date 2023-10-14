@@ -85,6 +85,12 @@ def predict():
         df['x'] = df['x'].astype('float')
         df['y'] = df['y'].astype('float')
         df['z'] = df['z'].astype('float')
+
+        # Inicio Salvar os dados em um arquivo CSV
+        csv_filename = 'dados_acelerometro.csv'
+        df.to_csv(csv_filename, mode='a', header=not os.path.exists(csv_filename), index=False)
+        # Fim Salvar os dados em um arquivo CSV
+        
         data = df.to_numpy()
         data = data.reshape(-1, 90, 3)
         print(data)
