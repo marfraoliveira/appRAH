@@ -18,8 +18,16 @@ app = Flask(__name__)
 
 
 #%%
+# Carregue o modelo uma vez ao iniciar o servidor Flask
+model = load_model('./modelCNN.h5')
+import time
+
+@app.route('/', methods=['GET'])
+def hello_world():
+    return 'Hello, World!'
+
 @app.route('/api', methods=['POST'])
-def receber_dados():
+def predict():
     try:
         # Obtém o JSON da solicitação
         data = request.get_json()
@@ -31,7 +39,6 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         data = df.to_numpy()
         data = data.reshape(-1, 90, 3)
-
         
         # Faça uma única previsão com o modelo carregado
         predictions = model.predict(data)
@@ -45,19 +52,16 @@ def receber_dados():
             4: 'Sitting',
             5: 'Standing'
         }
+        
         # Faça uma única previsão com o modelo carregado
         class_predict = [category_mapping[np.argmax(pred)] for pred in predictions]
         
-        return jsonify({'Classificação': str(class_predict)})
+        return jsonify({'args': str(class_predict)})
     except Exception as e:
-        return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
-             
-        
-
+        return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
-
-
+df = pd.read_csv('resultados_1210.csv',sep=';')
 
 
