@@ -54,7 +54,7 @@ def predict():
         # Faça uma única previsão com o modelo carregado
         class_predict = [category_mapping[np.argmax(pred)] for pred in predictions]
         
-        return jsonify({'args': str(class_predict)})
+        return jsonify({'args': str(category_mapping)})
     except Exception as e:
         return jsonify({'error': str(e)})
 
