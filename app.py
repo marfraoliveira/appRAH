@@ -42,7 +42,20 @@ def predict():
         
         # Faça uma única previsão com o modelo carregado
         class_predict = np.argmax(model.predict(data), axis=1)
-        return jsonify({'args': str("Marcel")})
+        
+        # Mapear as previsões para as categorias
+        category_mapping = {
+            0: 'Walking',
+            1: 'Jogging',
+            2: 'Upstairs',
+            3: 'Downstairs',
+            4: 'Sitting',
+            5: 'Standing'
+        }
+        
+        class_labels = [category_mapping[pred] for pred in class_predict]
+        
+        return jsonify({'predicted_categories': class_labels})
     except Exception as e:
         return jsonify({'error': str(e)})
 
