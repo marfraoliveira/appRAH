@@ -42,7 +42,7 @@ def predict():
         
         # Faça uma única previsão com o modelo carregado
         class_predict = np.argmax(model.predict(data), axis=1)
-        return jsonify({'args': str(class_predict)})
+        return jsonify({'args': str("Marcel")})
     except Exception as e:
         return jsonify({'error': str(e)})
 
