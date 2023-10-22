@@ -39,7 +39,8 @@ def predict():
         data = data.reshape(-1, 90, 3)
         
         # Faça uma única previsão com o modelo carregado
-        predictions = model.predict(data)
+        predictions = model.predict(data, run_eagerly=True)
+
         
         # Mapear as previsões para as categorias
         category_mapping = {
