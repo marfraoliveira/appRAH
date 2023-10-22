@@ -14,8 +14,6 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
-#%%
-
 
 #%%
 # Carregue o modelo uma vez ao iniciar o servidor Flask
@@ -62,6 +60,3 @@ def predict():
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
-df = pd.read_csv('resultados_1210.csv',sep=';')
-
-
