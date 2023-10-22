@@ -21,17 +21,38 @@ app = Flask(__name__)
 @app.route('/api', methods=['POST'])
 def receber_dados():
     try:
-        dados = request.get_json()  # Obter dados JSON da requisição
+        # Obtém o JSON da solicitação
+        data = request.get_json()
+        # Pré-processamento dos dados
+        columns = ['x', 'y', 'z']
+        df = pd.DataFrame(data, columns=columns)
+        df['x'] = df['x'].astype('float')
+        df['y'] = df['y'].astype('float')
+        df['z'] = df['z'].astype('float')
+        data = df.to_numpy()
+        data = data.reshape(-1, 90, 3)
 
-        # Contar o número de registros recebidos
-        numero_de_registros = len(dados)
-
-        print("Número de registros recebidos:", numero_de_registros)
-        print("Dados recebidos:", dados)
-
-        return jsonify({"status": "Dados recebidos com sucesso"})
+        
+        # Faça uma única previsão com o modelo carregado
+        predictions = model.predict(data)
+        
+        # Mapear as previsões para as categorias
+        category_mapping = {
+            0: 'Walking',
+            1: 'Jogging',
+            2: 'Upstairs',
+            3: 'Downstairs',
+            4: 'Sitting',
+            5: 'Standing'
+        }
+        # Faça uma única previsão com o modelo carregado
+        class_predict = [category_mapping[np.argmax(pred)] for pred in predictions]
+        
+        return jsonify({'Classificação': str(class_predict)})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
+             
+        
 
 
 if __name__ == '__main__':
