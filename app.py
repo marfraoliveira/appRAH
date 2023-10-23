@@ -34,9 +34,9 @@ def receber_dados():
        #df = pd.DataFrame(data_list)
        
        # Agora você tem um DataFrame criado a partir da lista de dicionários
-
+     
        return jsonify({"status": str(data_json)})
-    except Exception as e:
+     except Exception as e:
        return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
 
