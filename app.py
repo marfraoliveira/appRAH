@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 
-appCopy = Flask(__name__)
+app = Flask(__name__)
 #%%
 
 
