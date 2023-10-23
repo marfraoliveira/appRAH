@@ -32,7 +32,7 @@ def receber_dados():
         df['y'] = df['y'].astype('float')
         df['z'] = df['z'].astype('float')
         data = df.to_numpy()
-        data = data.reshape(-1, 1, 3)
+        data = data.reshape(-1, 90, 3)
        # print("Número de registros recebidos:", numero_de_registros)
         print("Dados recebidos:", data)
 
