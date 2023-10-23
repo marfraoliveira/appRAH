@@ -23,13 +23,13 @@ def receber_dados():
     try:
         dados = request.get_json()  # Obter dados JSON da requisição
         dados = json.dumps(dados)
-        # Contar o número de registros recebidos
-        numero_de_registros = len(dados)
+        df = pd.DataFrame()
+        df = dados
 
         print("Número de registros recebidos:", numero_de_registros)
         print("Dados recebidos:", dados)
 
-        return jsonify({"status": "Dados recebidos com sucesso"})
+        return jsonify({"status": str(dados)})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
