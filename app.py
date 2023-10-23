@@ -16,6 +16,10 @@ from tensorflow.keras.models import load_model
 app = Flask(__name__)
 #%%
 
+# Carregue o modelo uma vez ao iniciar o servidor Flask
+model = load_model('./modelCNN.h5')
+# Defina a opção para executar em modo eager
+tf.config.run_functions_eagerly(True)
 
 #%%
 @app.route('/api', methods=['POST'])
@@ -30,6 +34,10 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         dados = df.to_numpy()
         dados = dados.reshape(-1, 90, 3)
+
+        # Faça uma única previsão com o modelo carregado
+        class_predict = np.argmax(model.predict(data), axis=1)
+        
         # Contar o número de registros recebidos
         numero_de_registros = len(dados)
         
@@ -42,6 +50,7 @@ def receber_dados():
             4: 'Sitting',
             5: 'Standing'
         }
+        class_labels = [category_mapping[pred] for pred in class_predict]
         print("Número de registros recebidos:", numero_de_registros)
         print("Dados recebidos:", dados)
 
