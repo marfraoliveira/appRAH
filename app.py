@@ -20,23 +20,22 @@ app = Flask(__name__)
 #%%
 @app.route('/api', methods=['POST'])
 def receber_dados():
-    try:
-        data = request.get_json()  # Obter dados JSON da requisição
-        data = json.dumps(data)
+     try:
+        # Obter os dados JSON da requisição
+        datareq = request.get_json()
+        
+        # Suponha que você já tenha a string JSON em 'data_json'
+        data_json = json.dumps(datareq)
+        
+        # Decodifique a string JSON em uma lista de dicionários
+        #data_list = json.loads(data_json)
+        
+        # Crie um DataFrame a partir da lista de dicionários
+        #df = pd.DataFrame(data_list)
+        
+        # Agora você tem um DataFrame criado a partir da lista de dicionários
 
-        ############################
-        # Pré-processamento dos dados
-        columns = ['x', 'y', 'z']
-        df = pd.DataFrame(data, columns=columns)
-        df['x'] = df['x'].astype('float')
-        df['y'] = df['y'].astype('float')
-        df['z'] = df['z'].astype('float')
-        data = df.to_numpy()
-        data = data.reshape(-1, 90, 3)
-       # print("Número de registros recebidos:", numero_de_registros)
-        print("Dados recebidos:", data)
-
-        return jsonify({"status": str(data)})
+        return jsonify({"status": str(data_json)})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
