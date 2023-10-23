@@ -29,7 +29,7 @@ def receber_dados():
         print("Número de registros recebidos:", numero_de_registros)
         print("Dados recebidos:", dados)
 
-        return jsonify({"status": "Dados recebidos com sucesso"})
+        return jsonify(str({"status": "Dados recebidos com sucesso"}))
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
