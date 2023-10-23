@@ -22,16 +22,32 @@ app = Flask(__name__)
 def receber_dados():
     try:
         dados = request.get_json()  # Obter dados JSON da requisição
-
+        # Pré-processamento dos dados
+        columns = ['x', 'y', 'z']
+        df = pd.DataFrame(dados, columns=columns)
+        df['x'] = df['x'].astype('float')
+        df['y'] = df['y'].astype('float')
+        df['z'] = df['z'].astype('float')
+        dados = df.to_numpy()
+        dados = dados.reshape(-1, 90, 3)
         # Contar o número de registros recebidos
         numero_de_registros = len(dados)
-
+        
+        # Mapear as previsões para as categorias
+        category_mapping = {
+            0: 'Walking',
+            1: 'Jogging',
+            2: 'Upstairs',
+            3: 'Downstairs',
+            4: 'Sitting',
+            5: 'Standing'
+        }
         print("Número de registros recebidos:", numero_de_registros)
         print("Dados recebidos:", dados)
 
-        return jsonify(str({"status": "Dados recebidos com sucesso"}))
+        return jsonify(str(category_mapping))
     except Exception as e:
-        return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
+        return jsonify(str({"status": "Erro ao processar os dados", "erro": str(e)}))
 
 
 if __name__ == '__main__':
