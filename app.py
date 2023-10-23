@@ -36,7 +36,7 @@ def receber_dados():
         dados = dados.reshape(-1, 90, 3)
 
         # Faça uma única previsão com o modelo carregado
-        class_predict = np.argmax(model.predict(data), axis=1)
+        class_predict = np.argmax(model.predict(dados), axis=1)
         
         # Contar o número de registros recebidos
         numero_de_registros = len(dados)
