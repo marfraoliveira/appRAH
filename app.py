@@ -21,10 +21,16 @@ app = Flask(__name__)
 @app.route('/api', methods=['POST'])
 def receber_dados():
     try:
+        # Obtém o JSON da solicitação
         dados = request.get_json()  # Obter dados JSON da requisição
-
-        # Contar o número de registros recebidos
-        numero_de_registros = len(dados)
+        # Pré-processamento dos dados
+        columns = ['x', 'y', 'z']
+        df = pd.DataFrame(data, columns=columns)
+        df['x'] = df['x'].astype('float')
+        df['y'] = df['y'].astype('float')
+        df['z'] = df['z'].astype('float')
+        data = df.to_numpy()
+        data = data.reshape(-1, 90, 3)
 
         print("Número de registros recebidos:", numero_de_registros)
         print("Dados recebidos:", dados)
