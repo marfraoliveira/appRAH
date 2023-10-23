@@ -16,6 +16,8 @@ from tensorflow.keras.models import load_model
 app = Flask(__name__)
 #%%
 
+#execção ansiosa
+tf.config.run_functions_eagerly(True)
 # Carregue o modelo uma vez ao iniciar o servidor Flask
 model = load_model('./modelCNN.h5')
 # Defina a opção para executar em modo eager
