@@ -19,7 +19,7 @@ app = Flask(__name__)
 # Carregue o modelo uma vez ao iniciar o servidor Flask
 model = load_model('./modelCNN.h5')
 # Defina a opção para executar em modo eager
-tf.config.run_functions_eagerly(True)
+#tf.config.run_functions_eagerly(True)
 
 #%%
 @app.route('/api', methods=['POST'])
