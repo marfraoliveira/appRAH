@@ -22,7 +22,7 @@ app = Flask(__name__)
 def receber_dados():
     try:
         dados = request.get_json()  # Obter dados JSON da requisição
-
+        dados = json.dumps(dados)
         # Contar o número de registros recebidos
         numero_de_registros = len(dados)
 
