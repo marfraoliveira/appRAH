@@ -40,7 +40,6 @@ def receber_dados():
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
 
-
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
 
