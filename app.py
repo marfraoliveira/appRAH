@@ -22,9 +22,9 @@ app = Flask(__name__)
 def receber_dados():
     try:
         dados = request.get_json()  # Obter dados JSON da requisição
-        # tratar json
-        # Verificar se cada registro contém todas as chaves necessárias
-        dados_filtrados = [registro for registro in dados if all(chave in registro for chave in ('x', 'y', 'z', 'timestamp'))]
+        dados = json.dumps(dados)
+        df = pd.DataFrame()
+        df = dados
         
         # Converter os dados filtrados de volta para uma carga JSON
         json_filtrado = json.dumps(dados_filtrados)
