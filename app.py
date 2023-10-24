@@ -12,17 +12,30 @@ from json import JSONEncoder
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+import jsonschema
+from jsonschema import validate
 
 app = Flask(__name__)
 #%%
-
-
+# Defina o esquema JSON
+schema = {
+    "type": "object",
+    "properties": {
+        "x": {"type": "number"},
+        "y": {"type": "number"},
+        "z": {"type": "number"},
+        "timestamp": {"type": "string", "format": "date-time"}
+    },
+    "required": ["x", "y", "z", "timestamp"]
+}
 #%%
 @app.route('/api', methods=['POST'])
 def receber_dados():
      try:
        # Obter os dados JSON da requisição
        data = request.get_json()
+       data = json.loads(data_json)
+       validate(data, schema)  # Validação
        # Suponha que você já tenha a string JSON em 'data_json'
        #data_json = json.dumps(data_req)
        # Decodifique a string JSON em uma lista de dicionários
@@ -43,7 +56,10 @@ def receber_dados():
        # Agora você tem um DataFrame criado a partir da lista de dicionários
 
        return jsonify({"status": str(data)})
-     except Exception as e:
+     except json.JSONDecodeError:
+          # Tratar erro de decodificação JSON
+     except jsonschema.exceptions.ValidationError:
+    # Tratar erro de validação em relação ao esquema
        return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
 
