@@ -38,7 +38,7 @@ def receber_dados():
        # Agora você tem um DataFrame criado a partir da lista de dicionários
 
        return jsonify({"status": str(data_array)})
-    except Exception as e:
+     except Exception as e:
        return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
 
