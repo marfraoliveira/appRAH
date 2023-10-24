@@ -34,7 +34,7 @@ def receber_dados():
        data_array = np.array(data_list)
        # Crie um DataFrame a partir da lista de dicionários
        #df = pd.DataFrame(data_list)
-       
+       print(data_array)
        # Agora você tem um DataFrame criado a partir da lista de dicionários
 
        return jsonify({"status": str(data_array)})
