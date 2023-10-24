@@ -27,7 +27,7 @@ def receber_dados():
        #data_json = json.dumps(data_req)
        # Decodifique a string JSON em uma lista de dicionários
        #data_list = json.loads(data_json)
-             
+       print(data)      
 # =============================================================================
 #        #Cria um dataframe numpy
 #        data_array = np.array(data_list)
