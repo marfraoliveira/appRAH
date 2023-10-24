@@ -22,22 +22,27 @@ app = Flask(__name__)
 def receber_dados():
      try:
        # Obter os dados JSON da requisição
-       data_req = request.get_json()
-       
+       data = request.get_json()
        # Suponha que você já tenha a string JSON em 'data_json'
-       data_json = json.dumps(data_req)
-       
-       
+       #data_json = json.dumps(data_req)
        # Decodifique a string JSON em uma lista de dicionários
-       data_list = json.loads(data_json)
-       
-       data_array = np.array(data_list)
-       # Crie um DataFrame a partir da lista de dicionários
-       #df = pd.DataFrame(data_list)
-       print(data_array)
+       #data_list = json.loads(data_json)
+             
+# =============================================================================
+#        #Cria um dataframe numpy
+#        data_array = np.array(data_list)
+#       
+#        # Verifique se 'data_array' tem pelo menos uma linha (é 1D)
+#        if data_array.ndim == 1:
+#             # Adicione uma dimensão extra para torná-lo 2D
+#             data_array = data_array.reshape(1, -1)
+#         
+#         # Agora você pode criar um DataFrame Pandas a partir de 'data_array'
+#        df = pd.DataFrame(data_array)
+# =============================================================================
        # Agora você tem um DataFrame criado a partir da lista de dicionários
 
-       return jsonify({"status": str(data_array)})
+       return jsonify({"status": str(data)})
      except Exception as e:
        return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
