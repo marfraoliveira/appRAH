@@ -27,7 +27,7 @@ def receber_dados():
             # Remova o último registro da lista
             dados['data'].pop()
             df = jsonify(dados)
-            print('dsada',df)
+            print('MOstrar dados >>>',df)
         print("Dados recebidos:", df)
         return jsonify({"status": str(df)})
     except Exception as e:
