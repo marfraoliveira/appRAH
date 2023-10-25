@@ -22,11 +22,7 @@ app = Flask(__name__)
 def receber_dados():
     try:
         dados = request.get_json()  # Obter dados JSON da requisição
-        
-        
-        print("Número de registros recebidos:", numero_de_registros)
         print("Dados recebidos:", dados)
-
         return jsonify({"status": str('dados recebidos com sucesso')})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
