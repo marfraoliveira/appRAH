@@ -31,40 +31,15 @@ schema = {
 #%%
 @app.route('/api', methods=['POST'])
 def receber_dados():
-     try:
-       # Obter os dados JSON da requisição
-       data = request.get_json()
-       data = json.loads(data_json)
-       validate(data, schema)  # Validação
-       # Suponha que você já tenha a string JSON em 'data_json'
-       #data_json = json.dumps(data_req)
-       # Decodifique a string JSON em uma lista de dicionários
-       #data_list = json.loads(data_json)
-       print(data)      
-# =============================================================================
-#        #Cria um dataframe numpy
-#        data_array = np.array(data_list)
-#       
-#        # Verifique se 'data_array' tem pelo menos uma linha (é 1D)
-#        if data_array.ndim == 1:
-#             # Adicione uma dimensão extra para torná-lo 2D
-#             data_array = data_array.reshape(1, -1)
-#         
-#         # Agora você pode criar um DataFrame Pandas a partir de 'data_array'
-#        df = pd.DataFrame(data_array)
-# =============================================================================
-       # Agora você tem um DataFrame criado a partir da lista de dicionários
-
-       return jsonify({"status": str(data)})
-     except json.JSONDecodeError:
-          # Tratar erro de decodificação JSON
-     except jsonschema.exceptions.ValidationError:
-    # Tratar erro de validação em relação ao esquema
-       return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
+    # Suponha que você tenha recebido dados JSON
+    dados_json = request.get_json()
+    try:
+        # Tente validar os dados recebidos com o esquema
+        validate(instance=dados_json, schema=schema)
+        return("Os dados são válidos de acordo com o esquema.")
+    except Exception as e:
+        print(f"Erro de validação: {e}")
 
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
-
-
-
