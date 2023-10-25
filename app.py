@@ -33,6 +33,7 @@ def receber_dados():
     try:
         dados = request.get_json()  # Obter dados JSON da requisição
         df = pd.DataFrame(dados)
+        print(df)
         return jsonify({"status dos dados recebidos": str(dados)})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
