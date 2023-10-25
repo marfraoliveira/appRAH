@@ -34,11 +34,13 @@ def receber_dados():
     # Suponha que você tenha recebido dados JSON
     dados_json = request.get_json()
     try:
-        # Tente validar os dados recebidos com o esquema
-        validate(instance=dados_json, schema=schema)
-        return("Os dados são válidos de acordo com o esquema.")
+       # Tente validar os dados recebidos com o esquema
+       validate(instance=dados_json, schema=schema)
+       # Os dados são válidos
+       return jsonify({"status": "Dados válidos"}), 200
     except Exception as e:
-        print(f"Erro de validação: {e}")
+       # Erro de validação
+       return jsonify({"error": str(e)}), 400
 
 
 if __name__ == '__main__':
