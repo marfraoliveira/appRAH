@@ -20,16 +20,19 @@ app = Flask(__name__)
 #%%
 @app.route('/api', methods=['POST'])
 def receber_dados():
-    
+# =============================================================================
+#     try:
+#         dados = request.get_json()  # Obter dados JSON da requisição
+#         if 'data' in dados and isinstance(dados['data'], list) and len(dados['data']) > 0:
+#             # Remova o último registro da lista
+#             dados = dados['data'].pop()
+#         return jsonify({"status": str(dados)})
+#     except Exception as e:
+#         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
+# =============================================================================
     try:
         dados = request.get_json()  # Obter dados JSON da requisição
-        if 'data' in dados and isinstance(dados['data'], list) and len(dados['data']) > 0:
-            # Remova o último registro da lista
-            dados['data'].pop()
-            df = jsonify(dados)
-            print('MOstrar dados >>>',df)
-        print("Dados recebidos:", df)
-        return jsonify({"status": str(df)})
+        return jsonify({"status": str(dados)})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
