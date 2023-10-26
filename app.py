@@ -35,8 +35,9 @@ def receber_dados():
         print(dados)
         columns = ['x', 'y', 'z','timestamp']
         df = pd.DataFrame(dados)
-        print(df)
-        return jsonify({"status dos dados recebidos": str(df)})
+        data = np.array(df)
+        print(data)
+        return jsonify({"status dos dados recebidos": str(data)})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
