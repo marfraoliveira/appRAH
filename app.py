@@ -40,7 +40,7 @@ def receber_dados():
         data_list = data.tolist()
         # Serialize a lista em formato JSON
         json_data = json.dumps(data_list)
-        print(data_list)
+        print(json_data)
         return jsonify({"status dos dados recebidos": str(json_data)})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
