@@ -34,7 +34,7 @@ def receber_dados():
         dados = request.get_json()  # Obter dados JSON da requisição
         print(dados)
         columns = ['x', 'y', 'z','timestamp']
-        df = pd.DataFrame(dados,columns=columns)
+        df = pd.DataFrame(dados)
         print(df)
         return jsonify({"status dos dados recebidos": str(df)})
     except Exception as e:
