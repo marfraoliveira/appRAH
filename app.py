@@ -34,13 +34,18 @@ def receber_dados():
         dados = request.get_json()  # Obter dados JSON da requisição
         print(dados)
         columns = ['x', 'y', 'z','timestamp']
-        df = pd.DataFrame(dados)
-        data = np.array(df)
+        #df = pd.DataFrame(dados)
+        #data = np.array(df)
         # Converta o array NumPy em uma lista Python
-        data_list = data.tolist()
+        #data_list = data.tolist()
         # Serialize a lista em formato JSON
         json_data = json.dumps(data_list)
-        print(json_data)
+        # Converter o JSON de volta para uma lista de dicionários
+        data_list = json.loads(json_data)
+        # Remover o último registro
+        if data_list:
+            data_list.pop()
+            print(data_list)
         return jsonify({"status dos dados recebidos": str(json_data)})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
