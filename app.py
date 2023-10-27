@@ -30,24 +30,18 @@ def receber_dados():
 #     except Exception as e:
 #         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 # =============================================================================
-    try:
-        dados = request.get_json()  # Obter dados JSON da requisição
+   try:
+        dados = [
+            {"data": [{"x": -1.8440361022949219, "y": 6.280742645263672, "z": 7.210247039794922, "timestamp": "2023-10-25 09:37:40.917324"}, {"x": -1.8440361022949219, "y": 6.280742645263672, "z": 7.210247039794922, "timestamp": "2023-10-25 09:37:40.917402"}, {"x": -1.5227222442626953, "y": 6.109155654907227, "z": 7.767829895019531, "timestamp": "2023-10-25 09:37:40.980064"}, {"x": -1.5227222442626953, "y": 6.109155654907227, "z": 7.767829895019531, "timestamp": "2023-10-25 09:37:40.980143"}, {"x": -1.5538654327392578, "y": 6.10975456237793, "z": 7.692966461181641, "timestamp": "2023-10-25 09:37:41.060983"}]}
+        ]
+
+        # Remover o último registro da lista 'dados'
+        if dados and 'data' in dados[0] and isinstance(dados[0]['data'], list) and len(dados[0]['data']) > 0:
+            dados[0]['data'].pop()
+
         print(dados)
-        columns = ['x', 'y', 'z','timestamp']
-        #df = pd.DataFrame(dados)
-        #data = np.array(df)
-        # Converta o array NumPy em uma lista Python
-        #data_list = data.tolist()
-        # Serialize a lista em formato JSON
-        json_data = json.dumps(data_list)
-        # Converter o JSON de volta para uma lista de dicionários
-        data_list = json.loads(json_data)
-        # Remover o último registro
-        if data_list:
-            data_list.pop()
-            print(data_list)
-        return jsonify({"status dos dados recebidos": str(json_data)})
-    except Exception as e:
+        return jsonify({"status dos dados recebidos": str(dados)})
+   except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
 if __name__ == '__main__':
