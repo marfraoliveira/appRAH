@@ -67,8 +67,8 @@ def receber_dados():
         #class_predict = [category_mapping[np.argmax(pred)] for pred in predictions]
 # =============================================================================
         try:
-            loaded_data = json.loads(data)
-            return jsonify({'args': str(parsed_data), 'is_well_formed': True})
+           loaded_data = json.loads(recomposed_json)
+           return jsonify({'args': str(parsed_data), 'is_well_formed': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
         #return jsonify({'args': str(recomposed_json)})
