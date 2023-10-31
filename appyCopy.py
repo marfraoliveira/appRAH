@@ -15,28 +15,40 @@ from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
 #%%
-
+# =============================================================================
+#     try:
+#         dados = request.get_json()  # Obter dados JSON da requisição
+#         if 'data' in dados and isinstance(dados['data'], list) and len(dados['data']) > 0:
+#             # Remova o último registro da lista
+#             dados = dados['data'].pop()
+#         return jsonify({"status": str(dados)})
+#     except Exception as e:
+#         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
+# =============================================================================
 
 #%%
 @app.route('/api', methods=['POST'])
 def receber_dados():
     try:
-        dados = request.get_json()  # Obter dados JSON da requisição
-        dados = json.dumps(dados)
-        df = pd.DataFrame()
-        df = dados
-
-        print("Número de registros recebidos:", numero_de_registros)
-        print("Dados recebidos:", dados)
-
-        return jsonify({"status": str(dados)})
+        #data = json.loads(received_json)
+        data = request.get_json()
+        if "data" in data:
+        # Excluindo o último registro se estiver mal formado
+            if not all(key in data["data"][-1] for key in ["x", "y", "z", "timestamp"]):
+                del data["data"][-1]
+        # Recompondo o JSON
+        recomposed_json = json.dumps(data, indent=4)
+        print(recomposed_json)        
+        
+        # Verificando se o JSON recomposto está bem formado
+        try:
+            loaded_data = json.loads(recomposed_json)
+            return jsonify({'args': str(recomposed_json), 'is_well_formed': True})
+        except json.JSONDecodeError as json_error:
+            return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
+        #return jsonify({'args': str(recomposed_json)})
     except Exception as e:
-        return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
-
+        return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
-
-
-
-
