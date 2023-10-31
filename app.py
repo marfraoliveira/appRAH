@@ -29,9 +29,8 @@ app = Flask(__name__)
 #%%
 @app.route('/api', methods=['POST'])
 def receber_dados():
-    
     try:
-       #data = json.loads(received_json)
+        #data = json.loads(received_json)
         data = request.get_json()
         if "data" in data:
         # Excluindo o último registro se estiver mal formado
@@ -41,9 +40,15 @@ def receber_dados():
         recomposed_json = json.dumps(data, indent=4)
         print(recomposed_json)        
         
-                
-        return jsonify({'args': str(recomposed_json)})
+        # Verificando se o JSON recomposto está bem formado
+        try:
+            loaded_data = json.loads(recomposed_json)
+            return jsonify({'args': str(recomposed_json), 'is_well_formed': True})
+        except json.JSONDecodeError as json_error:
+            return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
+        #return jsonify({'args': str(recomposed_json)})
     except Exception as e:
         return jsonify({'error': str(e)})
+
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
