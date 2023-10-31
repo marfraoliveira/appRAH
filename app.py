@@ -47,11 +47,9 @@ def receber_dados():
         df['y'] = df['y'].astype('float')
         df['z'] = df['z'].astype('float')
         data = df.to_numpy()
-        reshaped_data = data[:20790].reshape(-1,90, 3)
-        #data = data.reshape(-1, 90, 3)
 # =============================================================================
 # Faça uma única previsão com o modelo carregado
-        predictions = model.predict(data)
+        #predictions = model.predict(data)
 
 # Mapear as previsões para as categorias
         category_mapping = {
@@ -66,10 +64,10 @@ def receber_dados():
 # Previsão do modelo carregado
 # =============================================================================
 # Faça uma única previsão com o modelo carregado
-        class_predict = [category_mapping[np.argmax(pred)] for pred in predictions]
+        #class_predict = [category_mapping[np.argmax(pred)] for pred in predictions]
 # =============================================================================
         try:
-            loaded_data = json.loads(class_predict)
+            loaded_data = json.loads(data)
             return jsonify({'args': str(data), 'is_well_formed': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
