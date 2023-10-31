@@ -47,7 +47,8 @@ def receber_dados():
         df['y'] = df['y'].astype('float')
         df['z'] = df['z'].astype('float')
         data = df.to_numpy()
-        data = data.reshape(-1, 90, 3)
+        reshaped_data = data[:20790].reshape(-1,90, 3)
+        #data = data.reshape(-1, 90, 3)
 # =============================================================================
 # Faça uma única previsão com o modelo carregado
         predictions = model.predict(data)
