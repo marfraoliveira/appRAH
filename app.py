@@ -31,8 +31,18 @@ app = Flask(__name__)
 def receber_dados():
     
     try:
-       json_dados = request.get_json()  # Obter dados JSON da requisição
+       json_data = request.get_json()  # Obter dados JSON da requisição
 
+       for key in json_data:
+       # Obtenha as chaves como uma lista e encontre a última chave
+           keys = list(json_data[key].keys())
+           last_key = str(len(keys) - 1)
+       if last_key in json_data[key]:
+           del json_data[key][last_key]
+
+# Converta de volta para uma string JSON
+           updated_json_string = json.dumps(json_data, indent=4)
+           print(updated_json_string)
         # Contar o número de registros recebidos
        #numero_de_registros = len(dados)
 
@@ -41,8 +51,8 @@ def receber_dados():
         # Remover o último registro da lista 'dados'
        #if dados and 'data' in dados[0] and isinstance(dados[0]['data'], list) and len(dados[0]['data']) > 0:
         #  dados[0]['data'].pop()
-       print(dados)
-       return jsonify({"status dos dados recebidos": str(json_dados)})
+       print(json_data)
+       return jsonify({"status dos dados recebidos": str(json_data)})
     except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
