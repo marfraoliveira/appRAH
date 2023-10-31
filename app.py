@@ -15,11 +15,6 @@ from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
 #%%
-
-
-#%%
-@app.route('/api', methods=['POST'])
-def receber_dados():
 # =============================================================================
 #     try:
 #         dados = request.get_json()  # Obter dados JSON da requisição
@@ -30,8 +25,13 @@ def receber_dados():
 #     except Exception as e:
 #         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 # =============================================================================
+
+#%%
+@app.route('/api', methods=['POST'])
+def receber_dados():
+    
     try:
-       dados = request.get_json()  # Obter dados JSON da requisição
+       json_dados = request.get_json()  # Obter dados JSON da requisição
 
         # Contar o número de registros recebidos
        #numero_de_registros = len(dados)
@@ -42,8 +42,8 @@ def receber_dados():
        #if dados and 'data' in dados[0] and isinstance(dados[0]['data'], list) and len(dados[0]['data']) > 0:
         #  dados[0]['data'].pop()
        print(dados)
-       return jsonify({"status dos dados recebidos": str(dados)})
-   except Exception as e:
+       return jsonify({"status dos dados recebidos": str(json_dados)})
+    except Exception as e:
         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 
 if __name__ == '__main__':
