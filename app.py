@@ -15,11 +15,15 @@ from tensorflow.keras.models import load_model
 import jsonschema
 from jsonschema import validate
 # =============================================================================
-# CARREGAR O MODELO DE DL
-model = load_model('./modelCNN.h5')
+
 # =============================================================================
+# CARREGAR O MODELO DE DL
+# =============================================================================
+model = load_model('./modelCNN.h5')
+
 app = Flask(__name__)
 #%%
+
 @app.route('/api', methods=['POST'])
 def receber_dados():
     try:
@@ -43,7 +47,7 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         print(df)
         data = df.to_numpy()
-        data = data[:len(data)//2]
+        data = data[:len(data)//10]
         tamanho_data = data.size
         #print('dados Numpy:'+ data)
         print('tamanho dos dados numpy: '+str(tamanho_data))
@@ -51,20 +55,26 @@ def receber_dados():
 # =============================================================================
 # Pre processamento
 # Tamanho da janela (90, 3)
-        janela = (90, 3)#
+        janela = (90, 3)
+
 # Inicialize uma lista para armazenar as previsões das janelas deslizantes
         previsoes = []
+
 # Defina um critério de parada
-        #critério_de_parada = 0.9  # Exemplo: interromper quando a previsão for maior ou igual a 0.9
+        critério_de_parada = 0.9  # Exemplo: interromper quando a previsão for maior ou igual a 0.9
+
 # Percorra os dados com uma janela deslizante
         for i in range(len(data) - janela[0] + 1):
             janela_deslizante = data[i:i + janela[0]]
             # Faça previsões com a janela deslizante
             previsao = model.predict(np.array([janela_deslizante]))
-            #previsoes.append(previsao)#
+            previsoes.append(previsao)
+
 # Calcule a previsão geral como a média das previsões individuais
-        #previsao_geral = np.mean(previsoes)#
+        previsao_geral = np.mean(previsoes)
         # 'previsao_geral' agora contém a previsão geral baseada na média das previsões
+        
+        # Suponha que 'category_mapping' seja o seu mapeamento de classes
         # Mapeie a previsão geral para a classe correspondente usando o category_mapping
 # Mapear as previsões para as categorias
         category_mapping = {
@@ -75,13 +85,13 @@ def receber_dados():
             4: 'Sitting',
             5: 'Standing'
         }
-        #classificacao_geral = category_mapping[np.argmax(previsao_geral)]#
+        classificacao_geral = category_mapping[np.argmax(previsao_geral)]
         
         # 'classificacao_geral' agora contém a classe correspondente à previsão geral
 
         # Exiba a classificação geral
-        #print("Classificação Geral:", classificacao_geral)
-        print("Classificação Geral:", janela_deslizante)
+        print("Classificação Geral:", classificacao_geral)
+
 # =============================================================================
 # Faça uma única previsão com o modelo carregado
         #predictions = model.predict(data)
@@ -96,7 +106,7 @@ def receber_dados():
 # =============================================================================
         try:
            loaded_data = json.loads(recomposed_json)
-           return jsonify({'args': str(janela_deslizante), 'is_well_formed': True})
+           return jsonify({'args': str(category_mapping), 'is_well_formed': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
         #return jsonify({'args': str(recomposed_json)})
