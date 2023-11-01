@@ -67,11 +67,11 @@ def receber_dados():
         for i in range(len(data) - janela[0] + 1):
             janela_deslizante = data[i:i + janela[0]]
             # Faça previsões com a janela deslizante
-            previsao = model.predict(np.array([janela_deslizante]))
-            previsoes.append(previsao)
+            #previsao = model.predict(np.array([janela_deslizante]))
+            #previsoes.append(previsao)
 
 # Calcule a previsão geral como a média das previsões individuais
-        previsao_geral = np.mean(previsoes)
+        #previsao_geral = np.mean(previsoes)
         # 'previsao_geral' agora contém a previsão geral baseada na média das previsões
         
         # Suponha que 'category_mapping' seja o seu mapeamento de classes
@@ -106,7 +106,7 @@ def receber_dados():
 # =============================================================================
         try:
            loaded_data = json.loads(recomposed_json)
-           return jsonify({'args': str(category_mapping), 'is_well_formed': True})
+           return jsonify({'args': str(janela_deslizante), 'is_well_formed': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
         #return jsonify({'args': str(recomposed_json)})
