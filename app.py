@@ -43,6 +43,7 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         print(df)
         data = df.to_numpy()
+        data = data[:len(data)//2]
         tamanho_data = data.size
         #print('dados Numpy:'+ data)
         print('tamanho dos dados numpy: '+str(tamanho_data))
