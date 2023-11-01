@@ -80,7 +80,7 @@ def receber_dados():
 
         # Exiba a classificação geral
         #print("Classificação Geral:", classificacao_geral)
-
+        print("Classificação Geral:", janela_deslizante)
 # =============================================================================
 # Faça uma única previsão com o modelo carregado
         #predictions = model.predict(data)
