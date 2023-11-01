@@ -19,7 +19,7 @@ from jsonschema import validate
 # =============================================================================
 # CARREGAR O MODELO DE DL
 # =============================================================================
-model = load_model('./modelCNN.h5')
+model = load_model('modelCNN.h5')
 
 app = Flask(__name__)
 #%%
@@ -67,7 +67,7 @@ def receber_dados():
         for i in range(len(data) - janela[0] + 1):
             janela_deslizante = data[i:i + janela[0]]
             # Faça previsões com a janela deslizante
-            #previsao = model.predict(np.array([janela_deslizante]))
+            previsao = model.predict(np.array([janela_deslizante]))
             #previsoes.append(previsao)
 
 # Calcule a previsão geral como a média das previsões individuais
