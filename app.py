@@ -85,12 +85,12 @@ def receber_dados():
             4: 'Sitting',
             5: 'Standing'
         }
-        classificacao_geral = category_mapping[np.argmax(previsao_geral)]
+        #classificacao_geral = category_mapping[np.argmax(previsao_geral)]
         
         # 'classificacao_geral' agora contém a classe correspondente à previsão geral
 
         # Exiba a classificação geral
-        print("Classificação Geral:", classificacao_geral)
+        #print("Classificação Geral:", classificacao_geral)
 
 # =============================================================================
 # Faça uma única previsão com o modelo carregado
