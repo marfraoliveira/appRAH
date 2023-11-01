@@ -35,7 +35,6 @@ def receber_dados():
                 del data["data"][-1]
         # Recompondo o JSON
         recomposed_json = json.dumps(data, indent=4)
-        print(recomposed_json)        
 # =============================================================================
 # pré-processamento
 # =============================================================================
@@ -46,11 +45,37 @@ def receber_dados():
         df['x'] = df['x'].astype('float')
         df['y'] = df['y'].astype('float')
         df['z'] = df['z'].astype('float')
+        print(df)
         data = df.to_numpy()
+        tamanho_data = data.size
+        #print('dados Numpy:'+ data)
+        print('tamanho dos dados numpy: '+str(tamanho_data))
+        print('Dados Numpy:' + str(data) )
 # =============================================================================
-# Faça uma única previsão com o modelo carregado
-        #predictions = model.predict(data)
+# Pre processamento
+# Pre processamento
+# Tamanho da janela (90, 3)
+        janela = (90, 3)
 
+# Inicialize uma lista para armazenar as previsões das janelas deslizantes
+        previsoes = []
+
+# Defina um critério de parada
+        critério_de_parada = 0.9  # Exemplo: interromper quando a previsão for maior ou igual a 0.9
+
+# Percorra os dados com uma janela deslizante
+        for i in range(len(data) - janela[0] + 1):
+            janela_deslizante = data[i:i + janela[0]]
+            # Faça previsões com a janela deslizante
+            previsao = model.predict(np.array([janela_deslizante]))
+            previsoes.append(previsao)
+
+# Calcule a previsão geral como a média das previsões individuais
+        previsao_geral = np.mean(previsoes)
+        # 'previsao_geral' agora contém a previsão geral baseada na média das previsões
+        
+        # Suponha que 'category_mapping' seja o seu mapeamento de classes
+        # Mapeie a previsão geral para a classe correspondente usando o category_mapping
 # Mapear as previsões para as categorias
         category_mapping = {
             0: 'Walking',
@@ -60,15 +85,28 @@ def receber_dados():
             4: 'Sitting',
             5: 'Standing'
         }
+        classificacao_geral = category_mapping[np.argmax(previsao_geral)]
+        
+        # 'classificacao_geral' agora contém a classe correspondente à previsão geral
+
+        # Exiba a classificação geral
+        print("Classificação Geral:", classificacao_geral)
+
+# =============================================================================
+# Faça uma única previsão com o modelo carregado
+        #predictions = model.predict(data)
+
 # =============================================================================
 # Previsão do modelo carregado
+        # Faça previsões com as janelas deslizantes
+        #previsoes = model.predict(janelas_deslizantes_numpy)
 # =============================================================================
 # Faça uma única previsão com o modelo carregado
         #class_predict = [category_mapping[np.argmax(pred)] for pred in predictions]
 # =============================================================================
         try:
            loaded_data = json.loads(recomposed_json)
-           return jsonify({'args': str(loaded_data), 'is_well_formed': True})
+           return jsonify({'args': str(classificacao_geral), 'is_well_formed': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
         #return jsonify({'args': str(recomposed_json)})
@@ -88,5 +126,3 @@ if __name__ == '__main__':
 #     except Exception as e:
 #         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
 # =============================================================================
-
-
