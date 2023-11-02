@@ -19,7 +19,13 @@ from jsonschema import validate
 # =============================================================================
 # CARREGAR O MODELO DE DL
 # =============================================================================
-model = load_model('./modelCNN.h5')
+# Model saved with Keras model.save()
+MODEL_PATH = 'modelCNN.h5'
+
+#Load your trained model
+model = load_model(MODEL_PATH)
+print('Modelo carregado com sucesso...')
+
 
 app = Flask(__name__)
 #%%
@@ -86,12 +92,12 @@ def receber_dados():
             4: 'Sitting',
             5: 'Standing'
         }
-        classificacao_geral = category_mapping[np.argmax(previsao_geral)]
+        #classificacao_geral = category_mapping[np.argmax(previsao_geral)]
         
         # 'classificacao_geral' agora contém a classe correspondente à previsão geral
 
         # Exiba a classificação geral
-        print("Classificação Geral:", classificacao_geral)
+        #print("Classificação Geral:", classificacao_geral)
 
 # =============================================================================
 # Faça uma única previsão com o modelo carregado
@@ -107,7 +113,7 @@ def receber_dados():
 # =============================================================================
         try:
            loaded_data = json.loads(recomposed_json)
-           return jsonify({'args': str(classificacao_geral), 'is_well_formed': True})
+           return jsonify({'args': str(category_mapping), 'is_well_formed': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
         #return jsonify({'args': str(recomposed_json)})
