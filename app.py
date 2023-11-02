@@ -47,7 +47,7 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         print(df)
         data = df.to_numpy()
-        data = data[:len(data)//10]
+        data = data[:len(data)//1]
         tamanho_data = data.size
         print('tamanho dos dados numpy: '+str(tamanho_data))
         print('Dados Numpy:' + str(data) )
