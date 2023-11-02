@@ -49,7 +49,6 @@ def receber_dados():
         data = df.to_numpy()
         data = data[:len(data)//10]
         tamanho_data = data.size
-        #print('dados Numpy:'+ data)
         print('tamanho dos dados numpy: '+str(tamanho_data))
         print('Dados Numpy:' + str(data) )
 # =============================================================================
@@ -67,7 +66,8 @@ def receber_dados():
         for i in range(len(data) - janela[0] + 1):
             janela_deslizante = data[i:i + janela[0]]
             # Faça previsões com a janela deslizante
-            previsao = model.predict(np.array([janela_deslizante]))
+            previsao = model.predict(janela_deslizante)
+            #previsao = model.predict(np.array([janela_deslizante]))
             #previsoes.append(previsao)
 
 # Calcule a previsão geral como a média das previsões individuais
