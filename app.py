@@ -77,7 +77,7 @@ def receber_dados():
         for i in range(len(data) - janela[0] + 1):
             janela_deslizante = data[i:i + janela[0]]
             # Faça previsões com a janela deslizante
-            #previsao = model.predict(janela_deslizante)
+            previsao = model.predict(janela_deslizante)
             #previsao = model.predict(np.array([janela_deslizante]))
             #previsoes.append(previsao)
 
