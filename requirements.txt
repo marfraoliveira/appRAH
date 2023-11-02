@@ -1,3 +1,4 @@
+jsonschema==3.2.0
 scikit-learn>=0.18
 keras==2.11.0
 gunicorn==19.9.0
