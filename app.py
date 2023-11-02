@@ -119,7 +119,7 @@ def receber_dados():
 # =============================================================================
         try:
            loaded_data = json.loads(recomposed_json)
-           return jsonify({'args': str(classificacao_geral), 'is_well_formed': True})
+           return jsonify({'args': str('Classificação da atividade: '+classificacao_geral), 'is_well_formed': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
         #return jsonify({'args': str(recomposed_json)})
