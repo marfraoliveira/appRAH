@@ -24,8 +24,12 @@ MODEL_PATH = 'modelCNN.h5'
 
 #Load your trained model
 model = load_model(MODEL_PATH)
-print('Modelo carregado com sucesso...')
 
+# Verifique se o modelo foi carregado com sucesso
+if isinstance(model, keras.models.Model):
+    print("O modelo foi carregado com sucesso.")
+else:
+    print("Ocorreu um erro ao carregar o modelo.")
 
 app = Flask(__name__)
 #%%
