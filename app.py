@@ -61,6 +61,7 @@ def receber_dados():
 
 # Defina um critério de parada
         critério_de_parada = 0.9  # Exemplo: interromper quando a previsão for maior ou igual a 0.9
+        janela_deslizante = np.array([])  # Inicialize a janela deslizante como uma matriz vazia
 
 # Percorra os dados com uma janela deslizante
         for i in range(len(data) - janela[0] + 1):
