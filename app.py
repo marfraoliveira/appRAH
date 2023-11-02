@@ -74,8 +74,8 @@ def receber_dados():
             janela_deslizante = data[i:i + janela[0]]
             # Faça previsões com a janela deslizante
             #previsao = model.predict(janela_deslizante)
-            previsao = model.predict(np.array([janela_deslizante]))
-            previsoes.append(previsao)
+            #previsao = model.predict(np.array([janela_deslizante]))
+            #previsoes.append(previsao)
 
 # Calcule a previsão geral como a média das previsões individuais
         #previsao_geral = np.mean(previsoes)
