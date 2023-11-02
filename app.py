@@ -19,7 +19,7 @@ from jsonschema import validate
 # =============================================================================
 # CARREGAR O MODELO DE DL
 # =============================================================================
-model = load_model('modelCNN.h5')
+model = load_model('./modelCNN.h5')
 
 app = Flask(__name__)
 #%%
