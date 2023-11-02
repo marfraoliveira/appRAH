@@ -76,6 +76,8 @@ def receber_dados():
 # Percorra os dados com uma janela deslizante
         for i in range(len(data) - janela[0] + 1):
             janela_deslizante = data[i:i + janela[0]]
+             # Fazer um reshape dos dados para corresponder ao formato esperado
+            janela_deslizante = janela_deslizante.reshape((1, 90, 3))
             # Faça previsões com a janela deslizante
             previsao = model.predict(janela_deslizante)
             #previsao = model.predict(np.array([janela_deslizante]))
