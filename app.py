@@ -57,7 +57,7 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         print(df)
         data = df.to_numpy()
-        data = data[:len(data)//1]
+        data = data[:len(data)//30]
         tamanho_data = data.size
         print('tamanho dos dados numpy: '+str(tamanho_data))
         print('Dados Numpy:' + str(data) )
@@ -128,7 +128,6 @@ def receber_dados():
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
-
 # =============================================================================
 #     try:
 #         dados = request.get_json()  # Obter dados JSON da requisição
