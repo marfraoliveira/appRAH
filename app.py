@@ -27,7 +27,7 @@ model = load_model(MODEL_PATH)
 
 # Verifique se o modelo foi carregado com sucesso
 if isinstance(model, keras.models.Model):
-    print("O modelo foi carregado com sucesso.")
+    print("O modelo" + MODEL_PATH + " foi carregado com sucesso.")
 else:
     print("Ocorreu um erro ao carregar o modelo.")
 
