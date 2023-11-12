@@ -20,7 +20,7 @@ from jsonschema import validate
 # CARREGAR O MODELO DE DL
 # =============================================================================
 # Model saved with Keras model.save()
-MODEL_PATH = 'modelShuffle.h5'
+MODEL_PATH = 'modelCNN.h5'
 
 #Load your trained model
 model = load_model(MODEL_PATH)
@@ -57,7 +57,7 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         print(df)
         data = df.to_numpy()
-        data = data[:len(data)//70]
+        data = data[:len(data)//10]
         tamanho_data = data.size
         print('tamanho dos dados numpy: '+str(tamanho_data))
         print('Dados Numpy:' + str(data) )
