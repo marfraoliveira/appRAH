@@ -45,7 +45,14 @@ def receber_dados():
                 del data["data"][-1]
         # Recompondo o JSON
         recomposed_json = json.dumps(data, indent=4)
+        # Conta o número de caracteres na string JSON
+        num_caracteres = len(recomposed_json)
+
+        # Imprime o número de caracteres e a string JSON
+        print(f'Número de caracteres na string JSON: {num_caracteres}')
         print(recomposed_json)
+
+        
 # =============================================================================
 # pré-processamento
 # =============================================================================
