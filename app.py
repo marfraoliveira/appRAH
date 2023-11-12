@@ -45,6 +45,7 @@ def receber_dados():
                 del data["data"][-1]
         # Recompondo o JSON
         recomposed_json = json.dumps(data, indent=4)
+        print(recomposed_json)
 # =============================================================================
 # pré-processamento
 # =============================================================================
