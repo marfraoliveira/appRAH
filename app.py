@@ -43,9 +43,9 @@ def receber_dados():
         # Excluindo o último registro se estiver mal formado
             if not all(key in data["data"][-1] for key in ["x", "y", "z", "timestamp"]):
                 del data["data"][-1]
-        # Recompondo o JSON
+# Recompondo o JSON
         recomposed_json = json.dumps(data, indent=4)
-        # Conta o número de caracteres na string JSON
+# Conta o número de caracteres na string JSON
         num_caracteres = len(recomposed_json)
 
         # Imprime o número de caracteres e a string JSON
