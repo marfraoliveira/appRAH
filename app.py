@@ -47,15 +47,6 @@ def receber_dados():
         recomposed_json = json.dumps(data, indent=4)
 # Conta o número de caracteres na string JSON
         num_caracteres = len(recomposed_json)
-
-        # Imprime o número de caracteres e a string JSON
-        print(f'Número de caracteres na string JSON: {num_caracteres}')
-        #print(recomposed_json)
-# Obtendo tamanho do Json =====================================================
-        # Analisando a string JSON recomposta
-        parsed_data = json.loads(recomposed_json)
-        print(len(parsed_data)
-                
 # =============================================================================
 # pré-processamento
 # =============================================================================
