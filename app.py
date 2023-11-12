@@ -50,22 +50,12 @@ def receber_dados():
 
         # Imprime o número de caracteres e a string JSON
         print(f'Número de caracteres na string JSON: {num_caracteres}')
-        print(recomposed_json)
+        #print(recomposed_json)
 # Obtendo tamanho do Json =====================================================
         # Analisando a string JSON recomposta
         parsed_data = json.loads(recomposed_json)
-
-        # Obtendo a lista de registros
-        registros_apos_recompor = parsed_data.get("data", [])
-
-        # Obtendo o número de registros após recompor o JSON
-        num_registros_apos_recompor = len(registros_apos_recompor)
-
-        # Imprimindo o número de registros e a string JSON
-        print(f'Número de registros após recompor o JSON: {num_registros_apos_recompor}')
-        print(recomposed_json)
-
-        
+        print(len(parsed_data)
+                
 # =============================================================================
 # pré-processamento
 # =============================================================================
