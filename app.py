@@ -46,7 +46,7 @@ def receber_dados():
 # Recompondo o JSON
         recomposed_json = json.dumps(data, indent=4)
 # Convertendo a string JSON para uma lista Python
-        lista_python = json.loads(recomposed_json)
+        lista_python = json.loads(recomposed_json)['data']
         print(lista_python)    
 # =============================================================================
 # pré-processamento
@@ -62,6 +62,7 @@ def receber_dados():
         data = df.to_numpy()
         data = data[:len(data)//70]
         tamanho_data = data.size
+        print('Quantidade de registros: '+str(len(lista_python)))
         print('tamanho dos dados numpy: '+str(tamanho_data))
         print('Dados Numpy:' + str(data) )
 # =============================================================================
