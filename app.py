@@ -45,8 +45,6 @@ def receber_dados():
                 del data["data"][-1]
 # Recompondo o JSON
         recomposed_json = json.dumps(data, indent=4)
-# Conta o número de caracteres na string JSON
-        num_caracteres = len(recomposed_json)
 # Convertendo a string JSON para uma lista Python
         lista_python = json.loads(recomposed_json)
         print(lista_python)    
