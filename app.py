@@ -60,7 +60,7 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         #print(df)
         data = df.to_numpy()
-        data = data[:len(data)//70]
+        data = data[:len(data)//10]
         tamanho_data = data.size
         print('Quantidade de registros: '+str(len(lista_python)))
         print('tamanho dos dados numpy: '+str(tamanho_data))
