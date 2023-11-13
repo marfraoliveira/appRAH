@@ -39,6 +39,7 @@ def receber_dados():
     try:
         #data = json.loads(received_json)
         data = request.get_json()
+        teste = json.loads(data)['data']#depois remover essa linha
         if "data" in data:
         # Excluindo o último registro se estiver mal formado
             if not all(key in data["data"][-1] for key in ["x", "y", "z", "timestamp"]):
