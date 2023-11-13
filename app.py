@@ -39,7 +39,6 @@ def receber_dados():
     try:
         #data = json.loads(received_json)
         data = request.get_json()
-        teste = json.loads(data)['data']#depois remover essa linha
         if "data" in data:
         # Excluindo o último registro se estiver mal formado
             if not all(key in data["data"][-1] for key in ["x", "y", "z", "timestamp"]):
@@ -61,7 +60,7 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         #print(df)
         data = df.to_numpy()
-        data = data[:len(data)//10]
+        data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
         print('Quantidade de registros: '+str(len(lista_python)))
         print('tamanho dos dados numpy: '+str(tamanho_data))
