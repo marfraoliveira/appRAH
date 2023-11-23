@@ -20,7 +20,7 @@ from jsonschema import validate
 # CARREGAR O MODELO DE DL
 # =============================================================================
 # Model saved with Keras model.save()
-MODEL_PATH = 'modelCNN1.h5'
+MODEL_PATH = 'modelExit.h5'
 
 #Load your trained model
 model = load_model(MODEL_PATH)
