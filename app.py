@@ -14,6 +14,7 @@ import keras
 from keras.models import load_model
 import jsonschema
 from jsonschema import validate
+from sklearn.metrics import accuracy_score
 # =============================================================================
 
 # =============================================================================
@@ -60,73 +61,69 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         #print(df)
         data = df.to_numpy()
-        data = data[:len(data)//10] # Pego 10% dos dados enviados
+        #data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
         print('Quantidade de registros: '+str(len(lista_python)))
         print('tamanho dos dados numpy: '+str(tamanho_data))
         print('Dados Numpy:' + str(data) )
 # =============================================================================
-# Pre processamento
-# Tamanho da janela (90, 3)
-        janela = (90, 3)
-
-# Inicialize uma lista para armazenar as previsões das janelas deslizantes
-        previsoes = []
-
-# Defina um critério de parada
-        critério_de_parada = 0.9  # Exemplo: interromper quando a previsão for maior ou igual a 0.9
-        janela_deslizante = np.array([])  # Inicialize a janela deslizante como uma matriz vazia
-
-# Percorra os dados com uma janela deslizante
-        for i in range(len(data) - janela[0] + 1):
-            janela_deslizante = data[i:i + janela[0]]
-             # Fazer um reshape dos dados para corresponder ao formato esperado
-            janela_deslizante = janela_deslizante.reshape((1, 90, 3))
-            # Faça previsões com a janela deslizante
-            previsao = model.predict(janela_deslizante)
-            previsao = model.predict(np.array([janela_deslizante]))
-            previsoes.append(previsao)
-
-# Calcule a previsão geral como a média das previsões individuais
-        previsao_geral = np.mean(previsoes)
-        # 'previsao_geral' agora contém a previsão geral baseada na média das previsões
+# Pre processamento novo
+        if data.shape[1:] != (90, 3):
+            # Determine quantos registros devem ser descartados ou ajustados
+            ajuste_necessario = data.shape[1] - 90
+            
+            # Descarte os primeiros registros
+            data = data[:, ajuste_necessario:]
+# =============================================================================
         
-        # Suponha que 'category_mapping' seja o seu mapeamento de classes
-        # Mapeie a previsão geral para a classe correspondente usando o category_mapping
-# Mapear as previsões para as categorias
-        category_mapping = {
-            0: 'Walking',
-            1: 'Jogging',
-            2: 'Upstairs',
-            3: 'Downstairs',
-            4: 'Sitting',
-            5: 'Standing'
-        }
-        classificacao_geral = category_mapping[np.argmax(previsao_geral)]
-        
-        # 'classificacao_geral' agora contém a classe correspondente à previsão geral
+          # Parâmetros da janela deslizante
+            tamanho_janela = 90  # Defina o tamanho da janela conforme necessário
 
-        # Exiba a classificação geral
-        print("Classificação Geral:", classificacao_geral)
-
+          # Crie todas as janelas deslizantes
+            janelas_deslizantes = []
 # =============================================================================
-# Faça uma única previsão com o modelo carregado
-        #predictions = model.predict(data)
-
+            for i in range(len(data) - tamanho_janela + 1):
+              janela_deslizante = data[i:i + tamanho_janela]
+              janelas_deslizantes.append(janela_deslizante)
 # =============================================================================
-# Previsão do modelo carregado
-        # Faça previsões com as janelas deslizantes
-        #previsoes = model.predict(janelas_deslizantes_numpy)
+# Converta as janelas para um array numpy
+            janelas_deslizantes = np.array(janelas_deslizantes)
+    
+# Agora você pode usar 'janelas_deslizantes' conforme necessário em seu código
+          # por exemplo, imprimir uma janela:
+            print("Primeira janela deslizante:")
+            print(janelas_deslizantes[0])
+            
+# Inicialize um array para armazenar as previsões
+            previsoes = np.array([])
+                
+# Faça previsões para cada janela deslizante
+            for janela in janelas_deslizantes:
+                previsao = model.predict(np.expand_dims(janela, axis=0))
+                previsoes = np.append(previsoes, previsao)    
 # =============================================================================
-# Faça uma única previsão com o modelo carregado
-        #class_predict = [category_mapping[np.argmax(pred)] for pred in predictions]
-# =============================================================================
+# Calcule a média das previsões
+            average_prediction = np.mean(previsoes, axis=0)
+# Converta a média para a classe prevista
+            class_index = np.argmax(average_prediction)
+            category_mapping = {
+                0: 'Walking',
+                1: 'Jogging',
+                2: 'Upstairs',
+                3: 'Downstairs',
+                4: 'Sitting',
+                5: 'Standing'
+            }
+            classificacao_media = category_mapping[class_index]
+            
+            print("Classificação Média:", classificacao_media)    
+ # =============================================================================
         try:
-           loaded_data = json.loads(recomposed_json)
-           return jsonify({'args': str('Classificação da atividade: '+classificacao_geral), 'is_well_formed': True})
+           
+           return jsonify({'args': str('Classificação da atividade: '+classificacao_media), 'is_well_formed': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
-        #return jsonify({'args': str(recomposed_json)})
+        
     except Exception as e:
         return jsonify({'error': str(e)})
 
