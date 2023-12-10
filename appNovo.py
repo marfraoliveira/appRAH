@@ -5,21 +5,32 @@ from flask import *
 from flask import Flask,request,jsonify  
 import numpy as np
 import pandas as pd
-import keras.models
 from keras.models import model_from_json
 import json
 from json import JSONEncoder
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import tensorflow as tf
-from tensorflow.keras.models import load_model
+import keras
+from keras.models import load_model
 import jsonschema
 from jsonschema import validate
+from sklearn.metrics import accuracy_score
 # =============================================================================
 
 # =============================================================================
 # CARREGAR O MODELO DE DL
 # =============================================================================
-model = load_model('./modelCNN.h5')
+# Model saved with Keras model.save()
+MODEL_PATH = 'modelCNN.h5'
+
+#Load your trained model
+model = load_model(MODEL_PATH)
+
+# Verifique se o modelo foi carregado com sucesso
+if isinstance(model, keras.models.Model):
+    print("O modelo" + MODEL_PATH + " foi carregado com sucesso.")
+else:
+    print("Ocorreu um erro ao carregar o modelo.")
 
 app = Flask(__name__)
 #%%
@@ -33,8 +44,11 @@ def receber_dados():
         # Excluindo o último registro se estiver mal formado
             if not all(key in data["data"][-1] for key in ["x", "y", "z", "timestamp"]):
                 del data["data"][-1]
-        # Recompondo o JSON
+# Recompondo o JSON
         recomposed_json = json.dumps(data, indent=4)
+# Convertendo a string JSON para uma lista Python
+        lista_python = json.loads(recomposed_json)['data']
+        #print(lista_python)    
 # =============================================================================
 # pré-processamento
 # =============================================================================
@@ -45,77 +59,76 @@ def receber_dados():
         df['x'] = df['x'].astype('float')
         df['y'] = df['y'].astype('float')
         df['z'] = df['z'].astype('float')
-        print(df)
+        #print(df)
         data = df.to_numpy()
+        #data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
-        #print('dados Numpy:'+ data)
+        print('Quantidade de registros: '+str(len(lista_python)))
         print('tamanho dos dados numpy: '+str(tamanho_data))
         print('Dados Numpy:' + str(data) )
 # =============================================================================
-# Pre processamento
-# Pre processamento
-# Tamanho da janela (90, 3)
-        janela = (90, 3)
-
-# Inicialize uma lista para armazenar as previsões das janelas deslizantes
-        previsoes = []
-
-# Defina um critério de parada
-        critério_de_parada = 0.9  # Exemplo: interromper quando a previsão for maior ou igual a 0.9
-
-# Percorra os dados com uma janela deslizante
-        for i in range(len(data) - janela[0] + 1):
-            janela_deslizante = data[i:i + janela[0]]
-            # Faça previsões com a janela deslizante
-            previsao = model.predict(np.array([janela_deslizante]))
-            previsoes.append(previsao)
-
-# Calcule a previsão geral como a média das previsões individuais
-        previsao_geral = np.mean(previsoes)
-        # 'previsao_geral' agora contém a previsão geral baseada na média das previsões
+# Pre processamento novo
+        if data.shape[1:] != (90, 3):
+            # Determine quantos registros devem ser descartados ou ajustados
+            ajuste_necessario = data.shape[1] - 90
+            
+            # Descarte os primeiros registros
+            data = data[:, ajuste_necessario:]
+# =============================================================================
         
-        # Suponha que 'category_mapping' seja o seu mapeamento de classes
-        # Mapeie a previsão geral para a classe correspondente usando o category_mapping
-# Mapear as previsões para as categorias
-        category_mapping = {
-            0: 'Walking',
-            1: 'Jogging',
-            2: 'Upstairs',
-            3: 'Downstairs',
-            4: 'Sitting',
-            5: 'Standing'
-        }
-        classificacao_geral = category_mapping[np.argmax(previsao_geral)]
-        
-        # 'classificacao_geral' agora contém a classe correspondente à previsão geral
+          # Parâmetros da janela deslizante
+            tamanho_janela = 90  # Defina o tamanho da janela conforme necessário
 
-        # Exiba a classificação geral
-        print("Classificação Geral:", classificacao_geral)
-
+          # Crie todas as janelas deslizantes
+            janelas_deslizantes = []
 # =============================================================================
-# Faça uma única previsão com o modelo carregado
-        #predictions = model.predict(data)
-
+            for i in range(len(data) - tamanho_janela + 1):
+              janela_deslizante = data[i:i + tamanho_janela]
+              janelas_deslizantes.append(janela_deslizante)
 # =============================================================================
-# Previsão do modelo carregado
-        # Faça previsões com as janelas deslizantes
-        #previsoes = model.predict(janelas_deslizantes_numpy)
+# Converta as janelas para um array numpy
+            janelas_deslizantes = np.array(janelas_deslizantes)
+    
+# Agora você pode usar 'janelas_deslizantes' conforme necessário em seu código
+          # por exemplo, imprimir uma janela:
+            print("Primeira janela deslizante:")
+            print(janelas_deslizantes[0])
+            
+# Inicialize um array para armazenar as previsões
+            previsoes = np.array([])
+                
+# Faça previsões para cada janela deslizante
+            for janela in janelas_deslizantes:
+                previsao = model.predict(np.expand_dims(janela, axis=0))
+                previsoes = np.append(previsoes, previsao)    
 # =============================================================================
-# Faça uma única previsão com o modelo carregado
-        #class_predict = [category_mapping[np.argmax(pred)] for pred in predictions]
-# =============================================================================
+# Calcule a média das previsões
+            average_prediction = np.mean(previsoes, axis=0)
+# Converta a média para a classe prevista
+            class_index = np.argmax(average_prediction)
+            category_mapping = {
+                0: 'Walking',
+                1: 'Jogging',
+                2: 'Upstairs',
+                3: 'Downstairs',
+                4: 'Sitting',
+                5: 'Standing'
+            }
+            classificacao_media = category_mapping[class_index]
+            
+            print("Classificação Média:", classificacao_media)    
+ # =============================================================================
         try:
-           loaded_data = json.loads(recomposed_json)
-           return jsonify({'args': str(classificacao_geral), 'is_well_formed': True})
+           
+           return jsonify({'args': str('Classificação da atividade: '+classificacao_media), 'is_well_formed': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
-        #return jsonify({'args': str(recomposed_json)})
+        
     except Exception as e:
         return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
-
 # =============================================================================
 #     try:
 #         dados = request.get_json()  # Obter dados JSON da requisição
