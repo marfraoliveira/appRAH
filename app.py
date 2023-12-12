@@ -132,7 +132,7 @@ def receber_dados():
                 #classificacoes_list.extend(classificacoes)
     
         try:
-           return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str( n_janelas_por_predicao)), 'O retorno eh bem formado ?': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str( n_janelas_por_predicao)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
