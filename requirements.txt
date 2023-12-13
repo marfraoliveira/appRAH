@@ -9,6 +9,7 @@ click==8.1.3
 async-timeout==4.0.3
 Flask==2.2.5
 Flask-SocketIO==5.3.6
+aioflask
 importlib-metadata==4.6.4
 itsdangerous==2.1.2
 Jinja2==3.1.2
