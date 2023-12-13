@@ -15,13 +15,15 @@ from keras.models import load_model
 import jsonschema
 from jsonschema import validate
 from sklearn.metrics import accuracy_score
+from threading import Timer
+
 # =============================================================================
 
 # =============================================================================
 # CARREGAR O MODELO DE DL
 # =============================================================================
 # Model saved with Keras model.save()
-MODEL_PATH = 'modelCNN.h5'
+MODEL_PATH = 'modelCNN1.h5'
 
 #Load your trained model
 model = load_model(MODEL_PATH)
@@ -38,7 +40,7 @@ app = Flask(__name__)
 @app.route('/api', methods=['POST'])
 def receber_dados():
     try:
-        #data = json.loads(received_json)
+        #data = 
         data = request.get_json()
         if "data" in data:
         # Excluindo o último registro se estiver mal formado
@@ -64,8 +66,8 @@ def receber_dados():
         #data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
         print('Quantidade de registros: '+str(len(lista_python)))
-        print('tamanho dos dados numpy: '+str(tamanho_data))
-        print('Dados Numpy:' + str(data) )
+        #print('tamanho dos dados numpy: '+str(tamanho_data))
+        #print('Dados Numpy:' + str(data) )
 # =============================================================================
 # Pre processamento novo
         if data.shape[1:] != (90, 3):
@@ -98,44 +100,46 @@ def receber_dados():
             previsoes = np.array([])
                 
 # Faça previsões para cada janela deslizante
-            for janela in janelas_deslizantes:
-                previsao = model.predict(np.expand_dims(janela, axis=0))
-                previsoes = np.append(previsoes, previsao)    
-# =============================================================================
-# Calcule a média das previsões
-            average_prediction = np.mean(previsoes, axis=0)
-# Converta a média para a classe prevista
-            class_index = np.argmax(average_prediction)
             category_mapping = {
-                0: 'Walking',
-                1: 'Jogging',
-                2: 'Upstairs',
-                3: 'Downstairs',
-                4: 'Sitting',
-                5: 'Standing'
+                  0: 'Walking',
+                  1: 'Jogging',
+                  2: 'Upstairs',
+                  3: 'Downstairs',
+                  4: 'Sitting',
+                  5: 'Standing'
             }
-            classificacao_media = category_mapping[class_index]
+# Inicialize um array para armazenar as previsões
+            previsoes = np.array([])
+            classificacoes_list = []
+
+# Ajuste o número de janelas a serem processadas em cada iteração
+            n_janelas_por_predicao = 500
             
-            print("Classificação Média:", classificacao_media)    
- # =============================================================================
+# Faça previsões para cada grupo de n_janelas_por_predicao janelas deslizantes
+            #for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
+                #grupo_janelas = janelas_deslizantes[i:i + n_janelas_por_predicao]
+                #previsao_grupo = model.predict(np.array(grupo_janelas))
+                #previsoes = np.append(previsoes, previsao_grupo)
+                
+# Converta as previsões para as classes previstas
+                #previsoes = previsoes.reshape(-1, len(category_mapping))
+                #classes_previstas = np.argmax(previsoes, axis=1)
+                #classificacoes = [category_mapping[class_index] for class_index in classes_previstas]
+
+            
+            
+                # Adicione as classificações à lista
+                #classificacoes_list.extend(classificacoes)
+    
         try:
-           
-           return jsonify({'args': str('Classificação da atividade: '+classificacao_media), 'is_well_formed': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str( n_janelas_por_predicao)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
-            return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})        
+            return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
     except Exception as e:
         return jsonify({'error': str(e)})
+   
+ # =============================================================================
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
-# =============================================================================
-#     try:
-#         dados = request.get_json()  # Obter dados JSON da requisição
-#         if 'data' in dados and isinstance(dados['data'], list) and len(dados['data']) > 0:
-#             # Remova o último registro da lista
-#             dados = dados['data'].pop()
-#         return jsonify({"status": str(dados)})
-#     except Exception as e:
-#         return jsonify({"status": "Erro ao processar os dados", "erro": str(e)})
-# =============================================================================
