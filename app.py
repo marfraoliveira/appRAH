@@ -91,7 +91,7 @@ async def receber_dados():
         category_mapping = {0: 'Walking', 1: 'Jogging', 2: 'Upstairs', 3: 'Downstairs', 4: 'Sitting', 5: 'Standing'}
         previsoes = np.array([])
         classificacoes_list = []
-        n_janelas_por_predicao = 50
+        n_janelas_por_predicao = 100
 
         classificacoes_list = await fazer_previsoes_assincrono(model, janelas_deslizantes, n_janelas_por_predicao, category_mapping)
 
