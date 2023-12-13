@@ -17,6 +17,8 @@ from jsonschema import validate
 from sklearn.metrics import accuracy_score
 from threading import Timer
 from flask_socketio import SocketIO, emit
+import asyncio
+
 
 
 app = Flask(__name__)
