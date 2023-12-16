@@ -93,7 +93,7 @@ async def receber_dados():
         classificacoes_list = await fazer_previsoes_assincrono(model, janelas_deslizantes, n_janelas_por_predicao, category_mapping)
 
         #return jsonify({'Reconhecimento': f'Classificacao da atividade: {classificacoes_list}', 'O retorno eh bem formado': True})
-        return jsonify(str(classificacoes_list))
+        return jsonify(str('Olá'))
 
     except json.JSONDecodeError as json_error:
         return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})
