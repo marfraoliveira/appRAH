@@ -157,6 +157,6 @@ def recuperar_solicitacoes():
         print('Deu ruim')
         #moda = None
 
-    return jsonify({'Classificação:': str('moda')})
+    return jsonify({'Classificação:': str(moda)})
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
