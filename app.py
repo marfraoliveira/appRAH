@@ -150,9 +150,11 @@ def receber_dados():
 def recuperar_solicitacoes():
     global classificacoes_list  # Indica que a variável está no escopo global
     # Calcular a moda da lista
-    #if classificacoes_list:
+    if classificacoes_list:
+        print('Ola')
         #moda = mode(classificacoes_list)
-    #else:
+    else:
+        print('Deu ruim')
         #moda = None
 
     return jsonify({'Classificação:': str('moda')})
