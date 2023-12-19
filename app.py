@@ -152,7 +152,7 @@ def recuperar_solicitacoes():
     # Calcular a moda da lista
     if classificacoes_list:
         print(classificacoes_list)
-        #moda = mode(classificacoes_list)
+        moda = mode(classificacoes_list)
     else:
         print('Deu ruim')
         #moda = None
