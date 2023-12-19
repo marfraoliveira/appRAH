@@ -39,6 +39,7 @@ app = Flask(__name__)
 
 @app.route('/api', methods=['POST'])
 def receber_dados():
+    global classificacoes_list  # Indica que a variável está no escopo global
     try:
         #data = 
         data = request.get_json()
@@ -140,6 +141,15 @@ def receber_dados():
         return jsonify({'error': str(e)})
    
  # =============================================================================
+@app.route('/recuperar_solicitacoes', methods=['GET'])
+def recuperar_solicitacoes():
+    global classificacoes_list  # Indica que a variável está no escopo global
+    # Calcular a moda da lista
+    if classificacoes_list:
+        moda = mode(classificacoes_list)
+    else:
+        moda = None
 
+    return jsonify({'Classificação:': moda})
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
