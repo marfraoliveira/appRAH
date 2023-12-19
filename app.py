@@ -136,7 +136,7 @@ def receber_dados():
                
     
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str('Predição realizada com sucesso !' )), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(classificacoes_list)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
@@ -150,11 +150,11 @@ def receber_dados():
 def recuperar_solicitacoes():
     global classificacoes_list  # Indica que a variável está no escopo global
     # Calcular a moda da lista
-    if classificacoes_list:
-        moda = mode(classificacoes_list)
-    else:
-        moda = None
+    #if classificacoes_list:
+        #moda = mode(classificacoes_list)
+    #else:
+        #moda = None
 
-    return jsonify({'Classificação:': moda})
+    return jsonify({'Classificação:': str('moda')})
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
