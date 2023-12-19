@@ -151,8 +151,8 @@ def recuperar_solicitacoes():
     global classificacoes_list  # Indica que a variável está no escopo global
     # Calcular a moda da lista
     if classificacoes_list:
-        print('Ola')
-        moda = mode(classificacoes_list)
+        print(classificacoes_list)
+        #moda = mode(classificacoes_list)
     else:
         print('Deu ruim')
         #moda = None
