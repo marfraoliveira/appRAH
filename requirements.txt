@@ -8,6 +8,7 @@ tensorflow==2.11.0
 blinker==1.6.2
 click==8.1.3
 async-timeout==4.0.3
+Flask-Cors==3.0.10
 Flask==2.2.5
 Flask-SocketIO==5.3.6
 aioflask
