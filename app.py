@@ -116,13 +116,13 @@ def receber_dados():
             classificacoes_list = []
 
 # Ajuste o número de janelas a serem processadas em cada iteração
-            n_janelas_por_predicao = 100
+            n_janelas_por_predicao = 10
             
 # Faça previsões para cada grupo de n_janelas_por_predicao janelas deslizantes
             for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
                 grupo_janelas = janelas_deslizantes[i:i + n_janelas_por_predicao]
                 grupo_janelas = np.array(grupo_janelas)
-                #previsao_grupo = model.predict(np.array(grupo_janelas))
+                previsao_grupo = model.predict(grupo_janelas)
                 #previsoes = np.append(previsoes, previsao_grupo)
 
 # Converta as previsões para as classes previstas
