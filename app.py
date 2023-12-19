@@ -113,12 +113,12 @@ def receber_dados():
             }
 # Inicialize um array para armazenar as previsões
             previsoes = np.array([])
-            classificacoes_list = []
+            classificacoes_list = ['abacaxi','maca','abacaxi']
 
 # Ajuste o número de janelas a serem processadas em cada iteração
             n_janelas_por_predicao = 100
             #após testes remover esta linha
-            classificacoes_list = n_janelas_por_predicao
+            #classificacoes_list = n_janelas_por_predicao
 # Faça previsões para cada grupo de n_janelas_por_predicao janelas deslizantes
             #for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
                 #grupo_janelas = janelas_deslizantes[i:i + n_janelas_por_predicao]
