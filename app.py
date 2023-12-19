@@ -116,7 +116,7 @@ def receber_dados():
             classificacoes_list = []
 
 # Ajuste o número de janelas a serem processadas em cada iteração
-            n_janelas_por_predicao = 10
+            n_janelas_por_predicao = 100000
             
 # Faça previsões para cada grupo de n_janelas_por_predicao janelas deslizantes
             for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
