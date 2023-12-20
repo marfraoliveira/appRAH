@@ -115,19 +115,19 @@ def receber_dados():
             resultado_previsao = model.predict(np.expand_dims(janela_deslizante, axis=0))
         
             # Converta o resultado para a categoria predita
-            #categoria_predita = np.argmax(resultado_previsao)
-            #atividade_predita = category_mapping[categoria_predita]
+            categoria_predita = np.argmax(resultado_previsao)
+            atividade_predita = category_mapping[categoria_predita]
         
             # Adicione a atividade predita à lista de previsões
-            #previsoes.append(atividade_predita)
+            previsoes.append(atividade_predita)
         
         # Calcule a moda das previsões
-        #atividade_predita_final = mode(previsoes)            
+        atividade_predita_final = mode(previsoes)            
             
 
 
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(category_mapping)), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(atividade_predita_final)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
