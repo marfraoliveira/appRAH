@@ -11,3 +11,4 @@ Jinja2
 numpy
 pandas
 pytz
+jsonschema
