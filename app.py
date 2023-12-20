@@ -14,7 +14,6 @@ from flask_cors import CORS
 from statistics import mode
 
 
-
 # =============================================================================
 
 # =============================================================================
@@ -107,38 +106,28 @@ def receber_dados():
                   3: 'Downstairs',
                   4: 'Sitting',
                   5: 'Standing'
-            }
-# Inicialize um array para armazenar as previsões
-            previsoes = np.array([])
-            classificacoes_list = []
+            }  
+        previsoes = []
+        
+        for janela_deslizante in janelas_deslizantes:
+            global atividade_predita_final
+            # Faça a previsão usando o modelo
+            resultado_previsao = model.predict(np.expand_dims(janela_deslizante, axis=0))
+        
+            # Converta o resultado para a categoria predita
+            categoria_predita = np.argmax(resultado_previsao)
+            atividade_predita = category_mapping[categoria_predita]
+        
+            # Adicione a atividade predita à lista de previsões
+            previsoes.append(atividade_predita)
+        
+        # Calcule a moda das previsões
+        atividade_predita_final = mode(previsoes)            
+            
 
-# Ajuste o número de janelas a serem processadas em cada iteração
-            n_janelas_por_predicao = 1
-            
-            
-# Faça previsões para cada grupo de n_janelas_por_predicao janelas deslizantes
-            for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
-                grupo_janelas = janelas_deslizantes[i:i + n_janelas_por_predicao]
-                grupo_janelas = np.array(grupo_janelas)
-                print(grupo_janelas)
-                #previsao_grupo = model.predict(grupo_janelas)
-                #previsoes = np.append(previsoes, previsao_grupo)
-                
-                
-# =============================================================================
-# # =============================================================================
-#                 # Converta as previsões para as classes previstas
-                #previsoes = previsoes.reshape(-1, len(category_mapping))
-                #classes_previstas = np.argmax(previsoes, axis=1)
-                #classificacoes = [category_mapping[class_index] for class_index in classes_previstas]
-                # Adicione as classificações à lista
-                #classificacoes_list.extend(classificacoes)
-# # =============================================================================
-# =============================================================================
-    
 
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str('classificacoes')), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(atividade_predita_final)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
@@ -149,14 +138,14 @@ def receber_dados():
 
 @app.route('/recuperar_solicitacoes', methods=['GET'])
 def recuperar_solicitacoes():
-    global classificacoes_list  # Indica que a variável está no escopo global
+    global atividade_predita_final  # Indica que a variável está no escopo global
     # Calcular a moda da lista
-    if classificacoes_list:
-        moda = mode(classificacoes_list)
+    if atividade_predita_final:
+        moda = mode(atividade_predita_final)
     else:
         moda = None
 
-    return jsonify({'Classificação:': moda})
+    return jsonify({'Classificação:': atividade_predita_final})
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5001)
