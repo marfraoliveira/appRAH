@@ -70,7 +70,7 @@ def receber_dados():
         print('Quantidade de registros: '+str(len(lista_python)))
         #print('tamanho dos dados numpy: '+str(tamanho_data))
         #print('Dados Numpy:' + str(data) )
-        previsao = model.predict(np.expand_dims(data, axis=0))
+        #previsao = model.predict(np.expand_dims(data, axis=0))
 
 # =============================================================================
 # Pre processamento novo
@@ -136,7 +136,7 @@ def receber_dados():
                 #classificacoes_list.extend(classificacoes)
     
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(previsao)), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str('previsao')), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
