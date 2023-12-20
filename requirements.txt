@@ -1,10 +1,7 @@
-flask[async]
-jsonschema==3.2.0
 scikit-learn==1.0.2
 keras
 gunicorn
 requests
-tensorflow
 blinker
 click
 Flask-Cors
