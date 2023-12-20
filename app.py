@@ -109,10 +109,10 @@ def receber_dados():
             }  
         previsoes = []
         
-        #for janela_deslizante in janelas_deslizantes:
-            #global atividade_predita_final
+        for janela_deslizante in janelas_deslizantes:
+            global atividade_predita_final
             # Faça a previsão usando o modelo
-            #resultado_previsao = model.predict(np.expand_dims(janela_deslizante, axis=0))
+            resultado_previsao = model.predict(np.expand_dims(janela_deslizante, axis=0))
         
             # Converta o resultado para a categoria predita
             #categoria_predita = np.argmax(resultado_previsao)
