@@ -17,6 +17,8 @@ from jsonschema import validate
 from sklearn.metrics import accuracy_score
 from threading import Timer
 
+
+
 # =============================================================================
 
 # =============================================================================
@@ -63,41 +65,43 @@ def receber_dados():
         df['z'] = df['z'].astype('float')
         #print(df)
         data = df.to_numpy()
-        #data = data[:len(data)//10] # Pego 10% dos dados enviados
+        data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
         print('Quantidade de registros: '+str(len(lista_python)))
         #print('tamanho dos dados numpy: '+str(tamanho_data))
         #print('Dados Numpy:' + str(data) )
+        previsao = model.predict(np.expand_dims(data, axis=0))
+
 # =============================================================================
 # Pre processamento novo
-        if data.shape[1:] != (90, 3):
+        #if data.shape[1:] != (90, 3):
             # Determine quantos registros devem ser descartados ou ajustados
-            ajuste_necessario = data.shape[1] - 90
+            #ajuste_necessario = data.shape[1] - 90
             
             # Descarte os primeiros registros
-            data = data[:, ajuste_necessario:]
+            #data = data[:, ajuste_necessario:]
 # =============================================================================
         
           # Parâmetros da janela deslizante
-            tamanho_janela = 90  # Defina o tamanho da janela conforme necessário
+            #tamanho_janela = 90  # Defina o tamanho da janela conforme necessário
 
           # Crie todas as janelas deslizantes
-            janelas_deslizantes = []
+            #janelas_deslizantes = []
 # =============================================================================
-            for i in range(len(data) - tamanho_janela + 1):
-              janela_deslizante = data[i:i + tamanho_janela]
-              janelas_deslizantes.append(janela_deslizante)
+            #for i in range(len(data) - tamanho_janela + 1):
+              #janela_deslizante = data[i:i + tamanho_janela]
+              #janelas_deslizantes.append(janela_deslizante)
 # =============================================================================
 # Converta as janelas para um array numpy
-            janelas_deslizantes = np.array(janelas_deslizantes)
+            #janelas_deslizantes = np.array(janelas_deslizantes)
     
 # Agora você pode usar 'janelas_deslizantes' conforme necessário em seu código
           # por exemplo, imprimir uma janela:
-            print("Primeira janela deslizante:")
-            print(janelas_deslizantes[0])
+            #print("Primeira janela deslizante:")
+            #print(janelas_deslizantes[0])
             
 # Inicialize um array para armazenar as previsões
-            previsoes = np.array([])
+            #previsoes = np.array([])
                 
 # Faça previsões para cada janela deslizante
             category_mapping = {
@@ -116,9 +120,9 @@ def receber_dados():
             n_janelas_por_predicao = 500
             
 # Faça previsões para cada grupo de n_janelas_por_predicao janelas deslizantes
-            for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
-                grupo_janelas = janelas_deslizantes[i:i + n_janelas_por_predicao]
-                previsao_grupo = model.predict(np.array(grupo_janelas))
+            #for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
+                #grupo_janelas = janelas_deslizantes[i:i + n_janelas_por_predicao]
+                #previsao_grupo = model.predict(np.array(grupo_janelas))
                 #previsoes = np.append(previsoes, previsao_grupo)
                 
 # Converta as previsões para as classes previstas
@@ -132,7 +136,7 @@ def receber_dados():
                 #classificacoes_list.extend(classificacoes)
     
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str( n_janelas_por_predicao)), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(previsao)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
