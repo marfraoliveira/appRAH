@@ -1,4 +1,4 @@
-scikit-learn==1.0.2
+scikit-learn
 keras
 gunicorn
 requests
@@ -7,12 +7,5 @@ click
 Flask-Cors
 Flask
 Jinja2
-MarkupSafe
 numpy
 pandas
-python
-pytz
-six
-tzdata
-Werkzeug
-zipp
