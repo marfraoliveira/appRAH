@@ -8,7 +8,7 @@ from flask_cors import CORS
 from statistics import mode
 
 # Carregar o modelo de DL
-MODEL_PATH = './modelCNN.h5'
+MODEL_PATH = 'CNNcompletoPesos.h5'
 loaded_model = tf.keras.models.load_model(MODEL_PATH)
 
 # Verificar se o modelo foi carregado com sucesso
