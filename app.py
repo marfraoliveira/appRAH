@@ -20,7 +20,7 @@ from statistics import mode
 # CARREGAR O MODELO DE DL
 # =============================================================================
 # Model saved with Keras model.save()
-MODEL_PATH = 'model.h5'
+MODEL_PATH = 'modelShuffle.h5'
 
 #Load your trained model
 #model = load_model(MODEL_PATH)
@@ -113,7 +113,7 @@ def receber_dados():
         print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO1')    
         previsoes = []
         print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO2')
-        #global atividade_predita_final
+        global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
         resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
         print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO3')
