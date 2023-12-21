@@ -114,6 +114,7 @@ def receber_dados():
         #global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
         resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
+        print(resultado_previsao)
         # Obtenha as categorias preditas para cada janela
         categorias_preditas = np.argmax(resultado_previsao, axis=1)
         # Mapeie as categorias para as atividades usando list comprehension
@@ -124,7 +125,7 @@ def receber_dados():
         print('>>>>>',atividade_predita_final)
  
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(previsoes)), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(resultado_previsao)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
