@@ -81,6 +81,11 @@ def receber_dados():
             # Descarte os primeiros registros
             data = data[:, ajuste_necessario:]
 # =============================================================================
+            if data.size > 0:
+                print('dados em data oK')
+            else:
+                print('dados em data nao ok')
+# =============================================================================
         
           # Parâmetros da janela deslizante
             tamanho_janela = 90  # Defina o tamanho da janela conforme necessário
