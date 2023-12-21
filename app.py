@@ -20,7 +20,7 @@ from statistics import mode
 # CARREGAR O MODELO DE DL
 # =============================================================================
 # Model saved with Keras model.save()
-MODEL_PATH = 'modelCNN.h5'
+MODEL_PATH = 'model.h5'
 
 #Load your trained model
 #model = load_model(MODEL_PATH)
