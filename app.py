@@ -108,7 +108,7 @@ def receber_dados():
                   5: 'Standing'
             }  
         previsoes = []
-        global atividade_predita_final
+        #global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
         resultado_previsao = model.predict(np.array(janelas_deslizantes))
         print(resultado_previsao)
@@ -133,16 +133,16 @@ def receber_dados():
    
  # =============================================================================
 
-@app.route('/recuperar_solicitacoes', methods=['GET'])
-def recuperar_solicitacoes():
-    global atividade_predita_final  # Indica que a variável está no escopo global
+#@app.route('/recuperar_solicitacoes', methods=['GET'])
+#def recuperar_solicitacoes():
+    #global atividade_predita_final  # Indica que a variável está no escopo global
     # Calcular a moda da lista
-    if atividade_predita_final:
-        moda = mode(atividade_predita_final)
-    else:
-        moda = None
+    #if atividade_predita_final:
+        #moda = mode(atividade_predita_final)
+    #else:
+        #moda = None
 
-    return jsonify({'Classificação:': atividade_predita_final})
+    #return jsonify({'Classificação:': atividade_predita_final})
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5001)
