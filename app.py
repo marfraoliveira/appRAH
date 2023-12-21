@@ -23,10 +23,13 @@ from statistics import mode
 MODEL_PATH = 'modelCNN.h5'
 
 #Load your trained model
-model = load_model(MODEL_PATH)
+#model = load_model(MODEL_PATH)
+
+loaded_model = tf.keras.saving.load_model("modelCNN.h5")
+
 
 # Verifique se o modelo foi carregado com sucesso
-if isinstance(model, keras.models.Model):
+if isinstance(loaded_model, keras.models.Model):
     print("O modelo" + MODEL_PATH + " foi carregado com sucesso.")
 else:
     print("Ocorreu um erro ao carregar o modelo.")
@@ -110,7 +113,7 @@ def receber_dados():
         previsoes = []
         #global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
-        resultado_previsao = model.predict(np.array(janelas_deslizantes))
+        resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
         # Obtenha as categorias preditas para cada janela
         categorias_preditas = np.argmax(resultado_previsao, axis=1)
         # Mapeie as categorias para as atividades usando list comprehension
