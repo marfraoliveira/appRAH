@@ -24,7 +24,6 @@ from statistics import mode
 
 MODEL_PATH = './modelCNN.h5'
 
-
 #Load your trained model
 #model = load_model(MODEL_PATH)
 
@@ -95,7 +94,11 @@ def receber_dados():
 # =============================================================================
 # Converta as janelas para um array numpy
             janelas_deslizantes = np.array(janelas_deslizantes)
-    
+            if len(janelas_deslizantes) > 0:
+                resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
+            else:
+                print("Erro: janelas_deslizantes está vazio.")
+
 # Agora você pode usar 'janelas_deslizantes' conforme necessário em seu código
           # por exemplo, imprimir uma janela:
             #print("Primeira janela deslizante:")
