@@ -108,24 +108,19 @@ def receber_dados():
                   5: 'Standing'
             }  
         previsoes = []
-        
-        for janela_deslizante in janelas_deslizantes:
-            global atividade_predita_final
-            # Faça a previsão usando o modelo
-            resultado_previsao = model.predict(np.expand_dims(janela_deslizante, axis=0))
-        
-            # Converta o resultado para a categoria predita
-            categoria_predita = np.argmax(resultado_previsao)
-            atividade_predita = category_mapping[categoria_predita]
-        
-            # Adicione a atividade predita à lista de previsões
-            previsoes.append(atividade_predita)
-        
+        global atividade_predita_final
+        # Faça previsões para todas as janelas deslizantes de uma vez
+        resultado_previsao = model.predict(np.array(janelas_deslizantes))
+
+        # Obtenha as categorias preditas para cada janela
+        categorias_preditas = np.argmax(resultado_previsao, axis=1)
+
+        # Mapeie as categorias para as atividades usando list comprehension
+        previsoes = [category_mapping[categoria] for categoria in categorias_preditas]
+
         # Calcule a moda das previsões
-        atividade_predita_final = mode(previsoes)            
-            
-
-
+        atividade_predita_final = mode(previsoes)
+     
         try:
             return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(atividade_predita_final)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
