@@ -67,9 +67,9 @@ def receber_dados():
         data = df.to_numpy()
         #data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
-        print('Quantidade de registros: '+str(len(lista_python)))
-        print('tamanho dos dados numpy: '+str(tamanho_data))
-        print('Dados Numpy:' + str(data) )
+        #print('Quantidade de registros: '+str(len(lista_python)))
+        #print('tamanho dos dados numpy: '+str(tamanho_data))
+        #print('Dados Numpy:' + str(data) )
 # =============================================================================
 # Pre processamento novo
         if data.shape[1:] != (90, 3):
@@ -109,21 +109,25 @@ def receber_dados():
                   3: 'Downstairs',
                   4: 'Sitting',
                   5: 'Standing'
-            }  
+            }
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')    
         previsoes = []
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
         #global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
         resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
-        print(resultado_previsao)
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
         # Obtenha as categorias preditas para cada janela
         categorias_preditas = np.argmax(resultado_previsao, axis=1)
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
         # Mapeie as categorias para as atividades usando list comprehension
         previsoes = [category_mapping[categoria] for categoria in categorias_preditas]
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
 
         # Calcule a moda das previsões
         atividade_predita_final = mode(previsoes)
-        print('>>>>>',atividade_predita_final)
- 
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+         
         try:
             return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(resultado_previsao)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
