@@ -1,6 +1,6 @@
-tensorflow
+tensorflow==2.15.0
 scikit-learn
-keras
+keras==2.15.0
 gunicorn
 requests
 blinker
