@@ -110,23 +110,23 @@ def receber_dados():
                   4: 'Sitting',
                   5: 'Standing'
             }
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')    
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO1')    
         previsoes = []
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO2')
         #global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
         resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO3')
         # Obtenha as categorias preditas para cada janela
         categorias_preditas = np.argmax(resultado_previsao, axis=1)
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO4')
         # Mapeie as categorias para as atividades usando list comprehension
         previsoes = [category_mapping[categoria] for categoria in categorias_preditas]
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO5')
 
         # Calcule a moda das previsões
         atividade_predita_final = mode(previsoes)
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO6')
          
         try:
             return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(resultado_previsao)), 'O retorno eh bem formado': True})
