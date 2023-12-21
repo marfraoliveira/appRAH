@@ -6,7 +6,8 @@ from json import JSONEncoder
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import tensorflow as tf
 import keras
-from keras.models import load_model,model_from_json
+#from keras.models import load_model,model_from_json
+from keras.models import Model, load_model
 import jsonschema
 from jsonschema import validate
 from sklearn.metrics import accuracy_score
@@ -20,12 +21,14 @@ from statistics import mode
 # CARREGAR O MODELO DE DL
 # =============================================================================
 # Model saved with Keras model.save()
-MODEL_PATH = 'modelShuffle.h5'
+
+MODEL_PATH = './modelCNN.h5'
+
 
 #Load your trained model
 #model = load_model(MODEL_PATH)
 
-loaded_model = tf.keras.saving.load_model("modelCNN.h5")
+loaded_model = tf.keras.saving.load_model(MODEL_PATH)
 
 
 # Verifique se o modelo foi carregado com sucesso
@@ -113,10 +116,13 @@ def receber_dados():
         print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO1')    
         previsoes = []
         print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO2')
-        global atividade_predita_final
+        #global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
-        resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO3')
+        try:
+            resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
+        except Exception as e:
+                print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO3')
+                print("Erro durante a previsão:", str(e))
         # Obtenha as categorias preditas para cada janela
         categorias_preditas = np.argmax(resultado_previsao, axis=1)
         print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO4')
@@ -129,7 +135,7 @@ def receber_dados():
         print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO6')
          
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(resultado_previsao)), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(atividade_predita_final)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
