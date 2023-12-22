@@ -1,27 +1,42 @@
+import time
+from distutils.log import debug
+from fileinput import filename
+from flask import *  
 from flask import Flask,request,jsonify  
 import numpy as np
 import pandas as pd
+from keras.models import model_from_json
 import json
 from json import JSONEncoder
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import tensorflow as tf
 import keras
-#from keras.models import load_model,model_from_json
-from keras.models import Model, load_model
+from keras.models import load_model
 import jsonschema
 from jsonschema import validate
 from sklearn.metrics import accuracy_score
+from threading import Timer
 from flask_cors import CORS
 from statistics import mode
-import sys 
-import os
-from load import * 
-sys.path.append(os.path.abspath("./"))
-
-global  modeloCNN
 
 
-modeloCNN = init()
+
+# =============================================================================
+
+# =============================================================================
+# CARREGAR O MODELO DE DL
+# =============================================================================
+# Model saved with Keras model.save()
+MODEL_PATH = 'modelExit.h5'
+
+#Load your trained model
+model = load_model(MODEL_PATH)
+
+# Verifique se o modelo foi carregado com sucesso
+if isinstance(model, keras.models.Model):
+    print("O modelo" + MODEL_PATH + " foi carregado com sucesso.")
+else:
+    print("Ocorreu um erro ao carregar o modelo.")
 
 app = Flask(__name__)
 CORS(app)
@@ -56,9 +71,9 @@ def receber_dados():
         data = df.to_numpy()
         #data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
-        print('Quantidade de registros lista python: '+str(len(lista_python)))
-        print('tamanho dos dados numpy de data: '+str(tamanho_data))
-        print('Dados Numpy de data:' + str(data) )
+        print('Quantidade de registros: '+str(len(lista_python)))
+        #print('tamanho dos dados numpy: '+str(tamanho_data))
+        #print('Dados Numpy:' + str(data) )
 # =============================================================================
 # Pre processamento novo
         if data.shape[1:] != (90, 3):
@@ -68,11 +83,6 @@ def receber_dados():
             # Descarte os primeiros registros
             data = data[:, ajuste_necessario:]
 # =============================================================================
-            if data.size > 0:
-                print('dados em data oK')
-            else:
-                print('dados em data nao ok')
-# =============================================================================
         
           # Parâmetros da janela deslizante
             tamanho_janela = 90  # Defina o tamanho da janela conforme necessário
@@ -80,24 +90,17 @@ def receber_dados():
           # Crie todas as janelas deslizantes
             janelas_deslizantes = []
 # =============================================================================
-            print("Tamanho de data antes da criação de janelas_deslizantes:", data.shape)
-            janelas_deslizantes = []
-            #for i in range(len(data) - tamanho_janela + 1):
-                #janela_deslizante = data[i:i + tamanho_janela]
-                #janelas_deslizantes.append(janela_deslizante)
-            #print("Tamanho de janelas_deslizantes:", len(janelas_deslizantes))
+            for i in range(len(data) - tamanho_janela + 1):
+              janela_deslizante = data[i:i + tamanho_janela]
+              janelas_deslizantes.append(janela_deslizante)
 # =============================================================================
 # Converta as janelas para um array numpy
-            #janelas_deslizantes = np.array(janelas_deslizantes)
-            #if len(janelas_deslizantes) > 0:
-                #resultado_previsao = modeloCNN.predict(np.array(janelas_deslizantes))
-            #else:
-                #print("Erro: janelas_deslizantes está vazio.")
-
+            janelas_deslizantes = np.array(janelas_deslizantes)
+    
 # Agora você pode usar 'janelas_deslizantes' conforme necessário em seu código
           # por exemplo, imprimir uma janela:
-            #print("Primeira janela deslizante:")
-            #print(janelas_deslizantes[0])
+            print("Primeira janela deslizante:")
+            print(janelas_deslizantes[0])
             
 # Inicialize um array para armazenar as previsões
             previsoes = np.array([])
@@ -111,41 +114,58 @@ def receber_dados():
                   4: 'Sitting',
                   5: 'Standing'
             }
-        previsoes = []
-        #global atividade_predita_final
-        # Faça previsões para todas as janelas deslizantes de uma vez
-        try:
-            resultado_previsao = modeloCNN.predict(np.array(category_mapping))
-        except Exception as e:
-                print("Erro durante a previsão:", str(e))
-        # Obtenha as categorias preditas para cada janela
-        categorias_preditas = np.argmax(resultado_previsao, axis=1)
-        # Mapeie as categorias para as atividades usando list comprehension
-        previsoes = [category_mapping[categoria] for categoria in categorias_preditas]
+# Inicialize um array para armazenar as previsões
+            previsoes = np.array([])
+            classificacoes_list = []
 
-        # Calcule a moda das previsões
-        atividade_predita_final = mode(previsoes)
-         
+# Ajuste o número de janelas a serem processadas em cada iteração
+            n_janelas_por_predicao = 10000000
+            
+            
+# =============================================================================
+# # Faça previsões para cada grupo de n_janelas_por_predicao janelas deslizantes
+#             for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
+#                 grupo_janelas = janelas_deslizantes[i:i + n_janelas_por_predicao]
+#                 grupo_janelas = np.array(grupo_janelas)
+#                 previsao_grupo = model.predict(grupo_janelas)
+#                 previsoes = np.append(previsoes, previsao_grupo)
+#                 
+# =============================================================================
+                
+# =============================================================================
+# # =============================================================================
+# =============================================================================
+# #                 # Converta as previsões para as classes previstas
+#                 previsoes = previsoes.reshape(-1, len(category_mapping))
+#                 classes_previstas = np.argmax(previsoes, axis=1)
+#                 classificacoes = [category_mapping[class_index] for class_index in classes_previstas]
+#                 # Adicione as classificações à lista
+#                 classificacoes_list.extend(classificacoes)
+# # # =============================================================================
+# =============================================================================
+# =============================================================================
+    
+
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(atividade_predita_final)), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str('classificacoes')), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
-            return jsonify({'Ero': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
+            return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
     except Exception as e:
-        return jsonify({'Errore': str(e)})
+        return jsonify({'error': str(e)})
    
  # =============================================================================
 
-#@app.route('/recuperar_solicitacoes', methods=['GET'])
-#def recuperar_solicitacoes():
-    #global atividade_predita_final  # Indica que a variável está no escopo global
+@app.route('/recuperar_solicitacoes', methods=['GET'])
+def recuperar_solicitacoes():
+    global classificacoes_list  # Indica que a variável está no escopo global
     # Calcular a moda da lista
-    #if atividade_predita_final:
-        #moda = mode(atividade_predita_final)
-    #else:
-        #moda = None
+    if classificacoes_list:
+        moda = mode(classificacoes_list)
+    else:
+        moda = None
 
-    #return jsonify({'Classificação:': atividade_predita_final})
+    return jsonify({'Classificação:': moda})
 
 if __name__ == '__main__':
-    app.run(debug=False, port=8000, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0', port=5001)
