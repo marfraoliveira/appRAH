@@ -1,4 +1,3 @@
-import time
 from distutils.log import debug
 from fileinput import filename
 from flask import *  
@@ -26,13 +25,13 @@ import base64
 sys.path.append(os.path.abspath("./"))
 from load import * 
 
-
 global model
-model = init()
-
 app = Flask(__name__)
 CORS(app)
 #%%
+
+model = init()
+
 
 @app.route('/api', methods=['POST'])
 def receber_dados():
@@ -122,13 +121,23 @@ def receber_dados():
             n_janelas_por_predicao = 10000
             
             
-# Faça previsões para cada grupo de n_janelas_por_predicao janelas deslizantes
 # =============================================================================
+# Faça previsões em lotes
             for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
                 grupo_janelas = janelas_deslizantes[i:i + n_janelas_por_predicao]
+                
+                # Certifique-se de que o grupo_janelas tenha o formato esperado pelo modelo
                 grupo_janelas = np.array(grupo_janelas)
+                
+                # Faça previsões para o grupo de janelas
                 previsao_grupo = model.predict(grupo_janelas)
-                #previsoes = np.append(previsoes, previsao_grupo)
+                
+                # Converta as previsões para as categorias correspondentes
+                categorias_preditas = np.argmax(previsao_grupo, axis=1)
+                previsoes_grupo = [category_mapping[categoria] for categoria in categorias_preditas]
+                
+                # Adicione as previsões do grupo ao array principal
+                previsoes = np.append(previsoes, previsoes_grupo)
 # =============================================================================
                 
                 
@@ -147,7 +156,7 @@ def receber_dados():
     
 
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(grupo_janelas)), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(previsoes)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
@@ -176,5 +185,4 @@ if __name__ == '__main__':
     
     
     
-
 
