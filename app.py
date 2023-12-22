@@ -129,10 +129,10 @@ def receber_dados():
         try:
             return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(atividade_predita_final)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
-            return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
+            return jsonify({'Ero': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return jsonify({'Errore': str(e)})
    
  # =============================================================================
 
