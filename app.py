@@ -52,13 +52,13 @@ def receber_dados():
         df['x'] = df['x'].astype('float')
         df['y'] = df['y'].astype('float')
         df['z'] = df['z'].astype('float')
-        print('dados do dataframe'+df)
+        #print(df)
         data = df.to_numpy()
         #data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
-        print('Quantidade de registros da lista Python: '+str(len(lista_python)))
-        print('tamanho dos dados numpy: '+str(tamanho_data))
-        print('Dados de data em Numpy:' + str(data) )
+        #print('Quantidade de registros: '+str(len(lista_python)))
+        #print('tamanho dos dados numpy: '+str(tamanho_data))
+        #print('Dados Numpy:' + str(data) )
 # =============================================================================
 # Pre processamento novo
         if data.shape[1:] != (90, 3):
@@ -111,26 +111,20 @@ def receber_dados():
                   4: 'Sitting',
                   5: 'Standing'
             }
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO1')    
         previsoes = []
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO2')
         #global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
         try:
             resultado_previsao = modeloCNN.predict(np.array(janelas_deslizantes))
         except Exception as e:
-                print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO3')
                 print("Erro durante a previsão:", str(e))
         # Obtenha as categorias preditas para cada janela
         categorias_preditas = np.argmax(resultado_previsao, axis=1)
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO4')
         # Mapeie as categorias para as atividades usando list comprehension
         previsoes = [category_mapping[categoria] for categoria in categorias_preditas]
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO5')
 
         # Calcule a moda das previsões
         atividade_predita_final = mode(previsoes)
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO6')
          
         try:
             return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(atividade_predita_final)), 'O retorno eh bem formado': True})
@@ -154,4 +148,4 @@ def receber_dados():
     #return jsonify({'Classificação:': atividade_predita_final})
 
 if __name__ == '__main__':
-    app.run(debug=False, port=8000)
+    app.run(debug=True, port=8000, host='0.0.0.0')
