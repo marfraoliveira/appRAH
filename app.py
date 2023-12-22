@@ -56,9 +56,9 @@ def receber_dados():
         data = df.to_numpy()
         #data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
-        #print('Quantidade de registros: '+str(len(lista_python)))
-        #print('tamanho dos dados numpy: '+str(tamanho_data))
-        #print('Dados Numpy:' + str(data) )
+        print('Quantidade de registros lista python: '+str(len(lista_python)))
+        print('tamanho dos dados numpy de data: '+str(tamanho_data))
+        print('Dados Numpy de data:' + str(data) )
 # =============================================================================
 # Pre processamento novo
         if data.shape[1:] != (90, 3):
