@@ -98,7 +98,7 @@ def receber_dados():
 # =============================================================================
 # Converta as janelas para um array numpy
 # =============================================================================
-#             janelas_deslizantes = np.array(janelas_deslizantes)
+            janelas_deslizantes = np.array(janelas_deslizantes)
 #     
 # # Agora você pode usar 'janelas_deslizantes' conforme necessário em seu código
 #           # por exemplo, imprimir uma janela:
