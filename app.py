@@ -91,9 +91,9 @@ def receber_dados():
             janelas_deslizantes = []
 # =============================================================================
 # =============================================================================
-#             for i in range(len(data) - tamanho_janela + 1):
-#               janela_deslizante = data[i:i + tamanho_janela]
-#               janelas_deslizantes.append(janela_deslizante)
+            for i in range(len(data) - tamanho_janela + 1):
+               janela_deslizante = data[i:i + tamanho_janela]
+               janelas_deslizantes.append(janela_deslizante)
 # =============================================================================
 # =============================================================================
 # Converta as janelas para um array numpy
