@@ -13,28 +13,15 @@ from jsonschema import validate
 from sklearn.metrics import accuracy_score
 from flask_cors import CORS
 from statistics import mode
+import sys 
+import os
+from load import * 
+sys.path.append(os.path.abspath("./"))
+
+global  modeloCNN
 
 
-# =============================================================================
-
-# =============================================================================
-# CARREGAR O MODELO DE DL
-# =============================================================================
-# Model saved with Keras model.save()
-
-MODEL_PATH = './CNNcompleto.h5'
-
-#Load your trained model
-#model = load_model(MODEL_PATH)
-
-loaded_model = tf.keras.saving.load_model(MODEL_PATH)
-
-
-# Verifique se o modelo foi carregado com sucesso
-if isinstance(loaded_model, keras.models.Model):
-    print("O modelo" + MODEL_PATH + " foi carregado com sucesso.")
-else:
-    print("Ocorreu um erro ao carregar o modelo.")
+modeloCNN = init()
 
 app = Flask(__name__)
 CORS(app)
@@ -103,7 +90,7 @@ def receber_dados():
 # Converta as janelas para um array numpy
             janelas_deslizantes = np.array(janelas_deslizantes)
             if len(janelas_deslizantes) > 0:
-                resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
+                resultado_previsao = modeloCNN.predict(np.array(janelas_deslizantes))
             else:
                 print("Erro: janelas_deslizantes está vazio.")
 
@@ -130,7 +117,7 @@ def receber_dados():
         #global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
         try:
-            resultado_previsao = loaded_model.predict(np.array(janelas_deslizantes))
+            resultado_previsao = modeloCNN.predict(np.array(janelas_deslizantes))
         except Exception as e:
                 print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO3')
                 print("Erro durante a previsão:", str(e))
@@ -167,4 +154,4 @@ def receber_dados():
     #return jsonify({'Classificação:': atividade_predita_final})
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=5001)
+    app.run(debug=True, port=8000)
