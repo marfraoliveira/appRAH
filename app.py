@@ -82,17 +82,17 @@ def receber_dados():
 # =============================================================================
             print("Tamanho de data antes da criação de janelas_deslizantes:", data.shape)
             janelas_deslizantes = []
-            for i in range(len(data) - tamanho_janela + 1):
-                janela_deslizante = data[i:i + tamanho_janela]
-                janelas_deslizantes.append(janela_deslizante)
-            print("Tamanho de janelas_deslizantes:", len(janelas_deslizantes))
+            #for i in range(len(data) - tamanho_janela + 1):
+                #janela_deslizante = data[i:i + tamanho_janela]
+                #janelas_deslizantes.append(janela_deslizante)
+            #print("Tamanho de janelas_deslizantes:", len(janelas_deslizantes))
 # =============================================================================
 # Converta as janelas para um array numpy
-            janelas_deslizantes = np.array(janelas_deslizantes)
-            if len(janelas_deslizantes) > 0:
-                resultado_previsao = modeloCNN.predict(np.array(janelas_deslizantes))
-            else:
-                print("Erro: janelas_deslizantes está vazio.")
+            #janelas_deslizantes = np.array(janelas_deslizantes)
+            #if len(janelas_deslizantes) > 0:
+                #resultado_previsao = modeloCNN.predict(np.array(janelas_deslizantes))
+            #else:
+                #print("Erro: janelas_deslizantes está vazio.")
 
 # Agora você pode usar 'janelas_deslizantes' conforme necessário em seu código
           # por exemplo, imprimir uma janela:
@@ -115,7 +115,7 @@ def receber_dados():
         #global atividade_predita_final
         # Faça previsões para todas as janelas deslizantes de uma vez
         try:
-            resultado_previsao = modeloCNN.predict(np.array(janelas_deslizantes))
+            resultado_previsao = modeloCNN.predict(np.array(category_mapping))
         except Exception as e:
                 print("Erro durante a previsão:", str(e))
         # Obtenha as categorias preditas para cada janela
