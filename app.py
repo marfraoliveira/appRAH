@@ -52,13 +52,13 @@ def receber_dados():
         df['x'] = df['x'].astype('float')
         df['y'] = df['y'].astype('float')
         df['z'] = df['z'].astype('float')
-        #print(df)
+        print('dados do dataframe'+df)
         data = df.to_numpy()
         #data = data[:len(data)//10] # Pego 10% dos dados enviados
         tamanho_data = data.size
-        #print('Quantidade de registros: '+str(len(lista_python)))
-        #print('tamanho dos dados numpy: '+str(tamanho_data))
-        #print('Dados Numpy:' + str(data) )
+        print('Quantidade de registros da lista Python: '+str(len(lista_python)))
+        print('tamanho dos dados numpy: '+str(tamanho_data))
+        print('Dados de data em Numpy:' + str(data) )
 # =============================================================================
 # Pre processamento novo
         if data.shape[1:] != (90, 3):
