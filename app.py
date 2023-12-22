@@ -11,6 +11,7 @@ from json import JSONEncoder
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import tensorflow as tf
 import keras
+import keras.models
 from keras.models import load_model
 import jsonschema
 from jsonschema import validate
@@ -18,25 +19,16 @@ from sklearn.metrics import accuracy_score
 from threading import Timer
 from flask_cors import CORS
 from statistics import mode
+import re
+import sys 
+import os
+import base64
+sys.path.append(os.path.abspath("./"))
+from load import * 
 
 
-
-# =============================================================================
-
-# =============================================================================
-# CARREGAR O MODELO DE DL
-# =============================================================================
-# Model saved with Keras model.save()
-MODEL_PATH = 'modelExit.h5'
-
-#Load your trained model
-model = load_model(MODEL_PATH)
-
-# Verifique se o modelo foi carregado com sucesso
-if isinstance(model, keras.models.Model):
-    print("O modelo" + MODEL_PATH + " foi carregado com sucesso.")
-else:
-    print("Ocorreu um erro ao carregar o modelo.")
+global model
+model = init()
 
 app = Flask(__name__)
 CORS(app)
@@ -135,7 +127,7 @@ def receber_dados():
             for i in range(0, len(janelas_deslizantes), n_janelas_por_predicao):
                 grupo_janelas = janelas_deslizantes[i:i + n_janelas_por_predicao]
                 grupo_janelas = np.array(grupo_janelas)
-                #previsao_grupo = modelExit.predict(grupo_janelas)
+                previsao_grupo = model.predict(grupo_janelas)
                 #previsoes = np.append(previsoes, previsao_grupo)
 # =============================================================================
                 
