@@ -108,7 +108,7 @@ def receber_dados():
             
 # Inicialize um array para armazenar as previsões
 # =============================================================================
-#             previsoes = np.array([])
+            previsoes = np.array([])
 # =============================================================================
                 
 # Faça previsões para cada janela deslizante
@@ -122,12 +122,12 @@ def receber_dados():
             }
 # Inicialize um array para armazenar as previsões
 # =============================================================================
-#             previsoes = np.array([])
-#             classificacoes_list = []
+            previsoes = np.array([])
+            classificacoes_list = []
 # =============================================================================
 
 # Ajuste o número de janelas a serem processadas em cada iteração
- #           n_janelas_por_predicao = 10000
+            n_janelas_por_predicao = 10000
             
             
 # Faça previsões para cada grupo de n_janelas_por_predicao janelas deslizantes
@@ -155,7 +155,7 @@ def receber_dados():
     
 
         try:
-            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(janelas_deslizantes)), 'O retorno eh bem formado': True})
+            return jsonify({'Reconhecimento': str('Classificacao da atividade: '+ str(previsoes)), 'O retorno eh bem formado': True})
         except json.JSONDecodeError as json_error:
             return jsonify({'error': f'JSON recomposto mal formado: {json_error}', 'is_well_formed': False})       
         
