@@ -13,9 +13,5 @@ python-apt+ubuntu
 python-debian+ubuntu
 python-engineio
 python-jsonrpc-server
-python-lsp-black
-python-lsp-jsonrpc
-python-lsp-server7
-python-pptx
 python-slugify
 python-xlib
