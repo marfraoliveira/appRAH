@@ -10,4 +10,3 @@ numpy
 pandas
 jsonschema
 python-apt+ubuntu
-python-debian+ubuntu
