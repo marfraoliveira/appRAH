@@ -11,7 +11,3 @@ pandas
 jsonschema
 python-apt+ubuntu
 python-debian+ubuntu
-python-engineio
-python-jsonrpc-server
-python-slugify
-python-xlib
