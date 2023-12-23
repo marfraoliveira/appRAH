@@ -9,4 +9,3 @@ Jinja2
 numpy
 pandas
 jsonschema
-python-apt+ubuntu
