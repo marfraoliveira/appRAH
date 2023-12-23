@@ -3,16 +3,12 @@ scikit-learn
 keras
 gunicorn
 requests
-blinker
-click
 Flask-Cors
 Flask
 Jinja2
 numpy
 pandas
-pytz
 jsonschema
-py
 python-apt+ubuntu
 python-dateutil
 python-debian+ubuntu
