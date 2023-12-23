@@ -10,15 +10,12 @@ numpy
 pandas
 jsonschema
 python-apt+ubuntu
-python-dateutil
 python-debian+ubuntu
 python-engineio
 python-jsonrpc-server
-python-language-server
 python-lsp-black
 python-lsp-jsonrpc
 python-lsp-server7
 python-pptx
 python-slugify
-python-socketio
 python-xlib
